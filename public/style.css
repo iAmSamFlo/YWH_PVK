@@ -3,7 +3,7 @@
  * that contains the map. 
  */
  #map {
-    height: 50%;
+    height: 70%;
     padding: 10;
   }
   
@@ -15,4 +15,10 @@
     height: 100%;
     margin: 0;
     padding: 0;
+    background-color: #7c41FA;
+  }
+  #HeaderFrame{
+    width:100%;
+    height:80;
+    border: 0;
   }
