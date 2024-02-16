@@ -1,4 +1,4 @@
-let map, infoWindow;
+let map, infoWindow, drawingManager;
 
 async function initMap() {
   const { Map } = await google.maps.importLibrary("maps");
@@ -14,12 +14,18 @@ async function initMap() {
     mapId: "DEMO_MAP_ID",
   });
 
-  var drawingManager = new DrawingManager();
-  drawingManager.setMap(map);
-  drawingManager.drawingControl = true;
+  // const drawingManager = new google.maps.drawing.DrawingManager();
+
+  drawingManager = new google.maps.drawing.DrawingManager({
+    drawingControl: false,
+    drawingControlOptions: {
+      position: google.maps.ControlPosition.TOP_CENTER,
+    },
+    
+  });
 
 
-  
+
   var position = { lat: 59, lng: 18 };
   var position2 = { lat: 59.325, lng: 18.05 };
 
@@ -29,7 +35,25 @@ async function initMap() {
 
 
   handleCurrentLocation();
+  var btn = document.getElementById("pinSpot");
+  btn.onclick = function() {pinSpot(drawingManager)};
 
+}
+
+
+function pinSpot(dm){
+  dm.drawingMode = google.maps.drawing.OverlayType.MARKER;
+  dm.drawingControl = true;
+  dm.drawingControlOptions = {
+    drawingModes: ['marker', 'circle']
+    ,
+  };
+  dm.markerOptions = {
+    icon: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
+  };
+  dm.circleOptions = {
+  };
+  dm.setMap(map);
 }
 
 
@@ -77,4 +101,6 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 initMap();
+
+
 
