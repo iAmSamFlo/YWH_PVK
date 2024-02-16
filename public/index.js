@@ -18,27 +18,20 @@ async function initMap() {
   drawingManager.setMap(map);
   drawingManager.drawingControl = true;
 
+
+  
   var position = { lat: 59, lng: 18 };
   var position2 = { lat: 59.325, lng: 18.05 };
 
   var pins = [];
+  pins.push(new Pin(new AdvancedMarkerElement(), map, position, "Här"));
+  pins.push(new Pin(new AdvancedMarkerElement(), map, position2, "Hääär"));
 
-  pins.push(new AdvancedMarkerElement({
-    map: map, 
-    position: position,
-    title: "här"
-  }));
-
-  pins.push(new AdvancedMarkerElement({
-    map: map, 
-    position: position2,
-    title: "Här"
-  }));
 
   handleCurrentLocation();
 
-
 }
+
 
 function handleCurrentLocation(){
   infoWindow = new google.maps.InfoWindow();
