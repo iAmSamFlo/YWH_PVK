@@ -1,0 +1,25 @@
+header {
+    height: 100vh;
+    width: 100vw;
+    background-color:  #7c41FA;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
+}
+header #YWHLogo {
+    height: 80%;
+    filter: saturate(0%) brightness(500%) drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    margin-right: auto;
+    
+}
+header #UserIcon {
+    height: 80%;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    margin-right: 3%;
+}
+body{
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
