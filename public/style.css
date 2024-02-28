@@ -2,6 +2,7 @@
  * Always set the map height explicitly to define the size of the div element
  * that contains the map. 
  */
+ @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
  #map {
     height: 70%;
     padding: 10;
@@ -52,4 +53,35 @@
   border-radius: 10px;
   top: 25px;
   left: 35%;
+}
+
+.SideMenu{
+  background-color:#7c41FA;
+  height: 30vh;
+  width: 40vw;
+  position: fixed;
+  z-index: 6;
+  right: 0;
+  border-style: solid;
+  border-radius: 0px 0px 0px 80px;
+  border-width: 20px 0px 20px 20px;
+  border-color:rgba(0,0,0,0.5);
+  transition: right 0.5s;
+  
+}
+
+.SideMenu > img{
+  width: 8vw
+}
+
+.SideMenu > span {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  float:right;
+  font-size: 155%;
+  padding-top: 7px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  color: #FFFFFF;
 }
