@@ -4,13 +4,31 @@
     <script type="module" src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
     <link rel="stylesheet" type="text/css" href="./style.css" />
+    <link rel="stylesheet" type="text/css" href="./header.css" />
+    <link rel="stylesheet" type="text/css" href="./menu.css" />
     <script type="module" src="./index.js"></script>
     <script type="text/JavaScript" src="./Pin.js"></script>
     <script type="text/JavaScript" src="./Menu.js"></script>
+    <script type="text/JavaScript" src="./slideinmenu.js"></script>
     <!-- <link rel="import" href="frame.html"> -->
   </head>
   <body>
-    <iframe src="header.html" id="HeaderFrame"></iframe>
+    <header>
+      <img src="icons/YWHLogo.png" id="YWHLogo">
+      <img src="icons/User.png" id="UserIcon" onclick="OpenSlideMenu()">
+    </header>
+    <div id="SlideinMenu" class="SideMenu">
+      <img src="icons/User.png">
+      <span>
+        <span>
+          First-Name Last-Name
+        </span>  
+        <span>
+        example@gmail.com
+        </span>
+      </span>
+    </div>
+
     <div id="PopUpMenu">
       <a id="MenuButton" onclick="MenuMove()"></a>
       <input id="SearchField" type ="text" placeholder="Search">
