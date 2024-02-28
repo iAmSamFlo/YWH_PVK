@@ -6,10 +6,18 @@
     <link rel="stylesheet" type="text/css" href="./style.css" />
     <script type="module" src="./index.js"></script>
     <script type="text/JavaScript" src="./Pin.js"></script>
+    <script type="text/JavaScript" src="./Menu.js"></script>
     <!-- <link rel="import" href="frame.html"> -->
   </head>
   <body>
     <iframe src="header.html" id="HeaderFrame"></iframe>
+    <div id="PopUpMenu">
+      <a id="MenuButton" onclick="MenuMove()"></a>
+      <input id="SearchField" type ="text" placeholder="Search">
+      <!-- Elemnt för pinna på kartan?-->
+    </div>
+    
+    
     <div id="map"></div>
 
     <!-- prettier-ignore -->
@@ -40,6 +48,5 @@
     
      
     </script>
-    
   </body>
 </html>
