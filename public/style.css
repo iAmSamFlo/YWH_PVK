@@ -22,3 +22,34 @@
     height:80;
     border: 0;
   }
+
+  #PopUpMenu {
+    background-color: #7c41FA;
+    height: 6vw;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    z-index: 1;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 80px; 
+    justify-content: center;
+    align-items: center;
+}
+#MenuButton {
+  background-color: white;
+  width: 30%;
+  padding: 5px; 
+  border-radius: 15px;
+  position: absolute; /* Position relative to the parent */
+  top: 5; /* Position at the top of the menu */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center horizontally */
+}
+#SearchField{
+  position: absolute;
+  width: 30%;
+  border-radius: 10px;
+  top: 25px;
+  left: 35%;
+}
