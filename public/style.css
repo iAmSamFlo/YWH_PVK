@@ -4,7 +4,7 @@
  */
  @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
  #map {
-    height: 70%;
+    height: 80%;
     padding: 10;
   }
   
@@ -26,7 +26,7 @@
 
   #PopUpMenu {
     background-color: #7c41FA;
-    height: 6vw;
+    height: 20vw;
     width: 100%;
     position: fixed;
     bottom: 0;
@@ -36,23 +36,30 @@
     padding-top: 80px; 
     justify-content: center;
     align-items: center;
+    border-radius: 20px 20px 0px 0px;
 }
 #MenuButton {
   background-color: white;
   width: 30%;
-  padding: 5px; 
+  padding: 8px; 
   border-radius: 15px;
   position: absolute; /* Position relative to the parent */
-  top: 5; /* Position at the top of the menu */
+  top: 10px; /* Position at the top of the menu */
   left: 50%; /* Center horizontally */
   transform: translateX(-50%); /* Center horizontally */
+  margin: 15px;
 }
 #SearchField{
   position: absolute;
-  width: 30%;
-  border-radius: 10px;
-  top: 25px;
-  left: 35%;
+  width: 70%;
+  height: 70px;
+  border-radius: 20px;
+  top: 115px;
+  left: 15%;
+  font-size: 200%;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  padding-left: 15px;
 }
 
 .SideMenu{
