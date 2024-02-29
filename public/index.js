@@ -1,85 +1,81 @@
-let map, infoWindow, drawingManager;
+class MapManager {
+  constructor() {
+    this.map = null;
+    this.infoWindow = null;
+    this.drawingManager = null;
+    this.radius = null;
+    this.coord = null;
+    this.circle = null;
+    this.pinBtn = document.getElementById('pinSpot');
+    this.saveBtn = document.getElementById('savePin');
+    this.undoBtn = document.getElementById('undoPin');
+    this.initMap();
+  }
 
-async function initMap() {
-  const { Map } = await google.maps.importLibrary("maps");
-  const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+  async initMap() {
+    const { Map } = await google.maps.importLibrary('maps');
+    const { DrawingManager } = await google.maps.importLibrary('drawing');
 
-  const { DrawingManager } = await google.maps.importLibrary("drawing");
-
-  var zoom = 10;
-  map = new Map(document.getElementById("map"), {
-    zoom: zoom + 2,
-    minZoom: zoom,
-    center: { lat: 59.32944, lng: 18.06861 },
-    restriction: {
-      latLngBounds: {
-        north: 60,
-        south: 59,
-        east: 20,
-        west: 17,
+    const zoom = 10;
+    this.map = new Map(document.getElementById('map'), {
+      zoom: zoom + 2,
+      minZoom: zoom,
+      center: { lat: 59.32944, lng: 18.06861 },
+      restriction: {
+        latLngBounds: {
+          north: 60,
+          south: 59,
+          east: 20,
+          west: 17,
+        },
       },
-    },
-    mapTypeId: "roadmap",
-    streetViewControl: false,
-    mapId: "DEMO_MAP_ID",
-  });
+      mapTypeId: 'roadmap',
+      streetViewControl: false,
+      mapId: 'DEMO_MAP_ID',
+    });
 
-  // const drawingManager = new google.maps.drawing.DrawingManager();
+    this.drawingManager = new DrawingManager({
+      drawingControl: false,
+      drawingControlOptions: {
+        position: google.maps.ControlPosition.TOP_CENTER,
+      },
+    });
 
-  drawingManager = new google.maps.drawing.DrawingManager({
-    drawingControl: false,
-    drawingControlOptions: {
-      position: google.maps.ControlPosition.TOP_CENTER,
-    },
-    
-  });
+    this.handleCurrentLocation();
+    this.setupEventListeners();
+  }
 
+  setupEventListeners() {
+    this.saveBtn.addEventListener('click', () => {
+      this.removeBtns();
+      this.saveData();
+    });
 
+    this.undoBtn.addEventListener('click', () => {
+      this.deleteCircle();
+    });
 
-  var position = { lat: 59, lng: 18 };
-  var position2 = { lat: 59.325, lng: 18.05 };
+    this.pinBtn.addEventListener('click', () => {
+      this.pinSpot();
+    });
 
-  var pins = [];
-  pins.push(new Pin(new AdvancedMarkerElement(), map, position, "Här"));
-  pins.push(new Pin(new AdvancedMarkerElement(), map, position2, "Hääär"));
+    google.maps.event.addListener(this.drawingManager, 'circlecomplete', (circle) => {
+      this.handleCircleComplete(circle);
+    });
+  }
 
+  async handleCurrentLocation() {
+    const locationButton = document.createElement('button');
+    locationButton.textContent = 'Pan to Current Location';
+    locationButton.classList.add('custom-map-control-button');
+    this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
 
-  handleCurrentLocation();
-  var btn = document.getElementById("pinSpot");
-  btn.onclick = function() {pinSpot(drawingManager)};
-  google.maps.event.addListener(drawingManager, 'circlecomplete', function(circle) {
-    radius = circle.getRadius();
-    coord = circle.getCenter();
-  });
+    locationButton.addEventListener('click', () => {
+      this.panToCurrentLocation();
+    });
+  }
 
-}
-
-
-function pinSpot(dm){
-  dm.drawingMode = google.maps.drawing.OverlayType.MARKER;
-  dm.drawingControl = true;
-  dm.drawingControlOptions = {
-    drawingModes: ['marker', 'circle']
-    ,
-  };
-  dm.markerOptions = {
-    icon: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
-  };
-  dm.circleOptions = {
-  };
-  dm.setMap(map);
-}
-
-
-function handleCurrentLocation(){
-  infoWindow = new google.maps.InfoWindow();
-  const locationButton = document.createElement("button");
-
-  locationButton.textContent = "Pan to Current Location";
-  locationButton.classList.add("custom-map-control-button");
-  map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
-  locationButton.addEventListener("click", () => {
-    // Try HTML5 geolocation.
+  async panToCurrentLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -87,48 +83,73 @@ function handleCurrentLocation(){
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
-
-          infoWindow.setPosition(pos);
-          infoWindow.setContent("Location found.");
-          infoWindow.open(map);
-          map.setCenter(pos);
+          this.map.setCenter(pos);
         },
         () => {
-          handleLocationError(true, infoWindow, map.getCenter());
+          this.handleLocationError(true, this.map.getCenter());
         },
       );
     } else {
-      // Browser doesn't support Geolocation
-      handleLocationError(false, infoWindow, map.getCenter());
+      this.handleLocationError(false, this.map.getCenter());
     }
-  });
-}
+  }
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-  infoWindow.setPosition(pos);
-  infoWindow.setContent(
-    browserHasGeolocation
-      ? "Error: The Geolocation service failed."
-      : "Error: Your browser doesn't support geolocation.",
-  );
-  infoWindow.open(map);
-}
+  handleLocationError(browserHasGeolocation, pos) {
+    this.infoWindow = new google.maps.InfoWindow();
+    this.infoWindow.setPosition(pos);
+    this.infoWindow.setContent(
+      browserHasGeolocation
+        ? 'Error: The Geolocation service failed.'
+        : "Error: Your browser doesn't support geolocation.",
+    );
+    this.infoWindow.open(this.map);
+  }
 
-var radius
-var coord
-initMap();
+  pinSpot() {
+      this.drawingManager.drawingControl = true;
+      this.drawingManager.drawingControlOptions = {
+        drawingModes: ['circle'],
+      };
+      this.drawingManager.setMap(this.map);  
+    }
 
+  setupBtns() {
+    this.undoBtn.classList.remove('nonVisible');
+    this.saveBtn.classList.remove('nonVisible');
+  }
 
-document.getElementById('savePin').addEventListener('click', function() {
-  
-  // Send the variables to the backend
-  fetch('/sendData', {
-      method: 'POST',
-      headers: {
+  deleteCircle() {
+    if (this.circle) {
+      this.circle.setMap(null);
+      this.removeBtns();
+    }
+  }
+
+  removeBtns() {
+    this.undoBtn.classList.add('nonVisible');
+    this.saveBtn.classList.add('nonVisible');
+  }
+
+  handleCircleComplete(circle) {
+    this.radius = circle.getRadius();
+    this.coord = circle.getCenter();
+    this.circle = circle;
+    this.setupBtns();
+  }
+
+  async saveData() {
+    if (this.radius && this.coord) {
+      // Send the variables to the backend
+      await fetch('/sendData', {
+        method: 'POST',
+        headers: {
           'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ radius, coord }),
-  });
-});
+        },
+        body: JSON.stringify({ radius: this.radius, coord: this.coord }),
+      });
+      this.removeBtns();
+    }
+  }
+}
 
-
+const mapManager = new MapManager();
