@@ -37,6 +37,10 @@ async function initMap() {
   handleCurrentLocation();
   var btn = document.getElementById("pinSpot");
   btn.onclick = function() {pinSpot(drawingManager)};
+  google.maps.event.addListener(drawingManager, 'circlecomplete', function(circle) {
+    radius = circle.getRadius();
+    coord = circle.getCenter();
+  });
 
 }
 
@@ -100,7 +104,21 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.open(map);
 }
 
+var radius
+var coord
 initMap();
 
+
+document.getElementById('savePin').addEventListener('click', function() {
+  
+  // Send the variables to the backend
+  fetch('/sendData', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ radius, coord }),
+  });
+});
 
 
