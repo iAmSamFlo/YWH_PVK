@@ -6,9 +6,19 @@ async function initMap() {
 
   const { DrawingManager } = await google.maps.importLibrary("drawing");
 
+  var zoom = 10;
   map = new Map(document.getElementById("map"), {
-    center: { lat: 59, lng: 18 },
-    zoom: 8,
+    zoom: zoom + 2,
+    minZoom: zoom,
+    center: { lat: 59.32944, lng: 18.06861 },
+    restriction: {
+      latLngBounds: {
+        north: 60,
+        south: 59,
+        east: 20,
+        west: 17,
+      },
+    },
     mapTypeId: "roadmap",
     streetViewControl: false,
     mapId: "DEMO_MAP_ID",
