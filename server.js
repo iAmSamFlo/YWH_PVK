@@ -22,8 +22,8 @@ app.post('/sendData', (req, res) => {
     backendCoord = coord;
 
     console.log('Received data from frontend:');
-    console.log('Variable 1:', backendRadius);
-    console.log('Variable 2:', backendCoord);
+    console.log('Radius:', backendRadius);
+    console.log('Coordinates:', backendCoord);
 
     // Respond to the frontend if necessary
     res.send('Data received successfully!');
