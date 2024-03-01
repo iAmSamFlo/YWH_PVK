@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="./menu.css" />
     <script type="module" src="./index.js"></script>
     <script type="text/JavaScript" src="./Pin.js"></script>
-    <script type="text/JavaScript" src="./Menu.js"></script>
+    <script src="./Menu.js"></script>
     <script type="text/JavaScript" src="./slideinmenu.js"></script>
     <!-- <link rel="import" href="frame.html"> -->
   </head>
@@ -29,15 +29,21 @@
       </span>
     </div>
 
-    <div id="PopUpMenu">
-      <a id="MenuButton" onclick="MenuMove()"></a>
-      <input id="SearchField" type ="text" placeholder="Search">
+    <div id= "PopUpMenu" class="PopUpMenu">
+      <a id="RollUpButton" onclick="menu.MenuMove()"></a>
+      <input id="InputField" type ="text" placeholder="Search">
+      <div id="LocationMenu">
+        <button id= "LocationButtons" class="MenuButtons"><label id="ButtonText">START</label></button>
+        <button id= "LocationButtons" class="MenuButtons"><label id="ButtonText">REVIEW</label></button>
+      </div>
+      <div id="NoLocationMenu">
+        <button id="ReviewSpot" class="MenuButtons"><label id="ButtonText">REVIEW MY SPOT</label></button>
+      </div>
       <!-- Elemnt för pinna på kartan?-->
     </div>
     
     
     <div id="map"></div>
-
     <!-- prettier-ignore -->
     <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});
 
@@ -63,8 +69,9 @@
 
     d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
         ({key: "AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg", v: "weekly"});
-    
-     
+    </script>
+    <script>
+      const menu = new Menu();
     </script>
   </body>
 </html>
