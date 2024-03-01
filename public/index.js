@@ -10,16 +10,18 @@ class MapManager {
     this.saveBtn = document.getElementById('savePin');
     this.undoBtn = document.getElementById('undoPin');
     this.initMap();
+    
   }
 
   async initMap() {
     const { Map } = await google.maps.importLibrary('maps');
     const { DrawingManager } = await google.maps.importLibrary('drawing');
 
-    const zoom = 10;
+    const minZoom = 10;
     this.map = new Map(document.getElementById('map'), {
-      zoom: zoom + 2,
-      minZoom: zoom,
+      fullscreenControl: false,
+      zoom: minZoom + 7,
+      minZoom: minZoom,
       center: { lat: 59.32944, lng: 18.06861 },
       restriction: {
         latLngBounds: {
@@ -42,6 +44,7 @@ class MapManager {
     });
 
     this.handleCurrentLocation();
+    this.panToCurrentLocation();
     this.setupEventListeners();
   }
 
@@ -62,6 +65,7 @@ class MapManager {
     google.maps.event.addListener(this.drawingManager, 'circlecomplete', (circle) => {
       this.handleCircleComplete(circle);
     });
+    
   }
 
   async handleCurrentLocation() {
@@ -131,6 +135,10 @@ class MapManager {
   }
 
   handleCircleComplete(circle) {
+    var maxRadius = 500;
+    if (circle.getRadius() > maxRadius) {
+      circle.setRadius(maxRadius);
+    }
     this.radius = circle.getRadius();
     this.coord = circle.getCenter();
     this.circle = circle;
@@ -153,3 +161,4 @@ class MapManager {
 }
 
 const mapManager = new MapManager();
+
