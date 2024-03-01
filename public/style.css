@@ -24,44 +24,20 @@
     border: 0;
   }
 
-  #PopUpMenu {
-    background-color: #7c41FA;
-    height: 20vw;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    z-index: 1;
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 80px; 
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px 20px 0px 0px;
+#PopUpMenu {
+  background-color: #7c41FA;
+  height: 800;
+  width: 100%;
+  position: fixed;
+  bottom: -600;
+  z-index: 1;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 80px; 
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px 20px 0px 0px;
 }
-#MenuButton {
-  background-color: white;
-  width: 30%;
-  padding: 8px; 
-  border-radius: 15px;
-  position: absolute; /* Position relative to the parent */
-  top: 10px; /* Position at the top of the menu */
-  left: 50%; /* Center horizontally */
-  transform: translateX(-50%); /* Center horizontally */
-  margin: 15px;
-}
-#SearchField{
-  position: absolute;
-  width: 70%;
-  height: 70px;
-  border-radius: 20px;
-  top: 115px;
-  left: 15%;
-  font-size: 200%;
-  font-family: "Montserrat", sans-serif;
-  font-weight: 500;
-  padding-left: 15px;
-}
-
 .SideMenu{
   background-color:#7c41FA;
   height: 30vh;
@@ -76,7 +52,6 @@
   transition: right 0.5s;
   
 }
-
 .SideMenu > img{
   width: 8vw
 }
@@ -86,9 +61,65 @@
   flex-direction: column;
   width: 75%;
   float:right;
-  font-size: 155%;
   padding-top: 7px;
+}
+#LocationMenu {
+  display: inline-flex; 
+  justify-content: center; /* Align items to the end (right) of the container */
+  position: absolute;
+  bottom: 15%;
+  width: 100%; /* Ensure the container spans the full width of the menu */
+}
+#NoLocationMenu{
+  display: inline-flex; 
+  justify-content: center; /* Align items to the end (right) of the container */
+  position: absolute;
+  bottom: 15%;
+  width: 100%;
+}
+.MenuButtons {
+  height: 15vw;
+  width: 40vw;
+  background-color: transparent;
+  border-radius: 30px;
+  border-width: 15px;
+  border-color: white;
+  border-style: solid;
+  margin-left: 5%; /* Add some spacing between buttons */
+  margin-right: 5%;
+  border-radius: 20px 20px 20px 20px;
+}
+#LocationButtons {
+  display: none;
+}
+/* The button to pull up the menu */
+#RollUpButton {
+  background-color: white;
+  width: 30%;
+  padding: 8px; 
+  border-radius: 15px;
+  position: absolute; /* Position relative to the parent */
+  top: 10px; /* Position at the top of the menu */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center horizontally */
+  margin: 15px;
+}
+#InputField{
+  position: absolute;
+  width: 70%;
+  height: 70px;
+  border-radius: 20px;
+  top: 115px;
+  left: 15%;
+  font-size: 200%;
   font-family: "Montserrat", sans-serif;
   font-weight: 500;
-  color: #FFFFFF;
+  padding-left: 15px;
+}
+#ButtonText {
+  color: white;
+  font-size: 300%;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  align-self: center;
 }
