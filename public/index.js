@@ -3,6 +3,7 @@ class MapManager {
     this.map = null;
     this.infoWindow = null;
     this.drawingManager = null;
+    this.markerElement = null;
     this.radius = null;
     this.coord = null;
     this.circle = null;
@@ -15,6 +16,7 @@ class MapManager {
   async initMap() {
     const { Map } = await google.maps.importLibrary('maps');
     const { DrawingManager } = await google.maps.importLibrary('drawing');
+    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
     const zoom = 10;
     this.map = new Map(document.getElementById('map'), {
@@ -41,6 +43,9 @@ class MapManager {
       },
     });
 
+    this.markerElement = new AdvancedMarkerElement({
+      map: this.map,
+    })
     this.handleCurrentLocation();
     this.setupEventListeners();
   }
@@ -56,11 +61,15 @@ class MapManager {
     });
 
     this.pinBtn.addEventListener('click', () => {
-      this.pinSpot();
+      this.enableDrawingManager();
     });
 
     google.maps.event.addListener(this.drawingManager, 'circlecomplete', (circle) => {
       this.handleCircleComplete(circle);
+    });
+
+    google.maps.event.addListener(this.map, "click", (mapsMouseEvent) => { 
+      this.setTempPin(mapsMouseEvent);
     });
   }
 
@@ -105,13 +114,18 @@ class MapManager {
     this.infoWindow.open(this.map);
   }
 
-  pinSpot() {
-      this.drawingManager.drawingControl = true;
-      this.drawingManager.drawingControlOptions = {
-        drawingModes: ['circle'],
-      };
-      this.drawingManager.setMap(this.map);  
-    }
+  enableDrawingManager() {
+    this.drawingManager.drawingControl = true;
+    this.drawingManager.drawingControlOptions = {
+      drawingModes: ['circle'],
+    };
+    this.drawingManager.setMap(this.map);  
+  }
+
+  setTempPin(mapsMouseEvent){
+    this.pinBtn.classList.remove('tempPinBtn');
+    this.markerElement.position = mapsMouseEvent.latLng;
+  }
 
   setupBtns() {
     this.undoBtn.classList.remove('nonVisible');
