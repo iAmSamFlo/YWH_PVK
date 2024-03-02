@@ -1,13 +1,31 @@
+class Menu {
+    constructor() {
+        this.isUp = false;
+        this.inputField = document.getElementById("InputField");
+        this.inputValue = "";
+        
+        console.log("Input Field Element:", this.inputField);
+        this.setupEventListeners();
+    }
 
-    let isUp = false;
-
-    function MenuMove() {
+    MenuMove() {
         const menu = document.getElementById("PopUpMenu");
         if (this.isUp) {
-            menu.style.height = "20vw";
+            menu.style.bottom = "0"
         } else {
-            menu.style.height = "50%";
+            menu.style.bottom = "-600";
         }
         this.isUp = !this.isUp;
     }
-
+    storeInput() {
+        this.inputValue = this.inputField.value;
+        console.log('Input value:', this.inputValue);
+    }
+    setupEventListeners() {
+        this.inputField.addEventListener('keypress', (event) => {
+          if (event.key === 'Enter') {
+            this.storeInput();
+          }
+        });
+    }
+}
