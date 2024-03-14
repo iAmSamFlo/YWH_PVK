@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <link rel="stylesheet" type="text/css" href="./header.css" />
+    <link rel="stylesheet" type="text/css" href="./menu.css" />
+    <link rel="stylesheet" type="text/css" href="./reviewstyle.css" />
+    <script type="module" src="./index.js"></script>
+    <script type="text/JavaScript" src="./Pin.js"></script>
+    <script type="text/JavaScript" src="./Menu.js"></script>
+    <script type="text/JavaScript" src="./slideinmenu.js"></script>
+    
+</head>
+<body>
+    <header>
+        <img src="icons/YWHLogo.png" id="YWHLogo">
+        <span>
+            Make a review
+        </span>
+        <img src="icons/cross.png" id="closebutton" onclick = "href">
+    </header>
+    <div>
+        <span class = "default-text">
+            How did this place make you feel?
+        </span>
+    </div>
+   
+    <div class="slider-container">
+        <input type="range" min="1" max="5" value="1" class="slider" id="aslider">
+        <div id="sliderValueContainer" class="slider-value">
+            <span id="sliderValue">1</span>
+        </div>
+        <div class="text-container">
+            <div class="text-left">Safe</div>
+            <div class="text-right">Unsafe</div>
+        </div>
+        <script type="text/JavaScript" src="./slider.js"></script>
+    </div>
+    <div> <span class = "default-text">
+        Add tags
+    </span>
+    <div>
+        <div class="button-container">
+            <button type="button" class = "safebuttons" id="safe" onclick="changeOpacity(this)">Safe</button>
+            <button type="button" class = "safebuttons" id="unsafe" onclick="changeOpacity(this)">Unsafe</button>
+        </div>
+    </div>
+</div>
+   
+
+</body>
+</html>
