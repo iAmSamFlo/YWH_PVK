@@ -7,11 +7,11 @@ class MapManager {
     this.radius = null;
     this.coord = null;
     this.circle = null;
-    this.pinBtn = document.getElementById('ReviewBtn');
     this.saveBtn = document.getElementById('savePin');
     this.undoBtn = document.getElementById('undoPin');
     this.locationMenu = document.getElementById('LocationMenu');
     this.noLocationMenu = document.getElementById('NoLocationMenu');
+    this.reviewBtn = document.getElementById('ReviewBtn');
     this.initMap();
     
   }
@@ -65,8 +65,9 @@ class MapManager {
       this.deleteCircle();
     });
 
-    this.pinBtn.addEventListener('click', () => {
+    this.reviewBtn.addEventListener('click', () => {
       this.enableDrawingManager();
+      this.review();
     });
 
     google.maps.event.addListener(this.drawingManager, 'circlecomplete', (circle) => {
@@ -130,7 +131,6 @@ class MapManager {
   }
 
   setTempPin(mapsMouseEvent){
-    // this.pinBtn.classList.remove('tempPinBtn');
     this.locationMenu.classList.remove('hideLocationMenu');
     this.noLocationMenu.classList.add('hideLocationMenu');
     this.locationMenu.classList.add('showLocationMenu');
@@ -180,7 +180,17 @@ class MapManager {
       this.removeBtns();
     }
   }
+
+  review(){
+    var pos =  this.markerElement.position;
+    this.circle = new google.maps.Circle({
+      map: this.map,
+      center: pos,
+      radius: 10,
+    });
+  }
 }
+
 
 const mapManager = new MapManager();
 
