@@ -7,9 +7,11 @@ class MapManager {
     this.radius = null;
     this.coord = null;
     this.circle = null;
-    this.pinBtn = document.getElementById('pinSpot');
+    this.pinBtn = document.getElementById('ReviewBtn');
     this.saveBtn = document.getElementById('savePin');
     this.undoBtn = document.getElementById('undoPin');
+    this.locationMenu = document.getElementById('LocationMenu');
+    this.noLocationMenu = document.getElementById('NoLocationMenu');
     this.initMap();
     
   }
@@ -128,7 +130,12 @@ class MapManager {
   }
 
   setTempPin(mapsMouseEvent){
-    this.pinBtn.classList.remove('tempPinBtn');
+    // this.pinBtn.classList.remove('tempPinBtn');
+    this.locationMenu.classList.remove('hideLocationMenu');
+    this.noLocationMenu.classList.add('hideLocationMenu');
+    this.locationMenu.classList.add('showLocationMenu');
+    this.noLocationMenu.classList.remove('showLocationMenu');
+
     this.markerElement.position = mapsMouseEvent.latLng;
   }
 
