@@ -3,12 +3,11 @@
     <title>Simple Map</title>
     <script type="module" src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
-    <link rel="stylesheet" type="text/css" href="./style.css" />
-    <link rel="stylesheet" type="text/css" href="./header.css" />
-    <link rel="stylesheet" type="text/css" href="./menu.css" />
-    <link rel="stylesheet" type="text/css" href="./map.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/style.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/header.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/menu.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/map.css" />
     <script type="module" src="./index.js"></script>
-    <script type="text/JavaScript" src="./Pin.js"></script>
     <script src="./Menu.js"></script>
     <script type="text/JavaScript" src="./slideinmenu.js"></script>
     <!-- <link rel="import" href="frame.html"> -->
@@ -33,11 +32,11 @@
     <div id= "PopUpMenu" class="PopUpMenu">
       <a id="RollUpButton" onclick="menu.MenuMove()"></a>
       <input id="InputField" type ="text" placeholder="Search">
-      <div id="LocationMenu">
-        <button id= "LocationButtons" class="MenuButtons"><label id="ButtonText">START</label></button>
-        <button id= "LocationButtons" class="MenuButtons"><label id="ButtonText">REVIEW</label></button>
+      <div id="LocationMenu" class="hideLocationMenu">
+        <button id= "StartBtn" class="MenuButtons"><label id="ButtonText">START</label></button>
+        <button id= "ReviewBtn" class="MenuButtons"><label id="ButtonText">REVIEW</label></button>
       </div>
-      <div id="NoLocationMenu">
+      <div id="NoLocationMenu" class="showLocationMenu">
         <button id="ReviewSpot" class="MenuButtons"><label id="ButtonText">REVIEW MY SPOT</label></button>
       </div>
       <!-- Elemnt för pinna på kartan?-->

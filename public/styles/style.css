@@ -64,14 +64,12 @@
   padding-top: 7px;
 }
 #LocationMenu {
-  display: inline-flex; 
   justify-content: center; /* Align items to the end (right) of the container */
   position: absolute;
   bottom: 15%;
   width: 100%; /* Ensure the container spans the full width of the menu */
 }
 #NoLocationMenu{
-  display: inline-flex; 
   justify-content: center; /* Align items to the end (right) of the container */
   position: absolute;
   bottom: 15%;
@@ -93,8 +91,11 @@
   background-color: #c2c2c2;
   border-color: #c2c2c2;  
 }
-#LocationButtons {
+.hideLocationMenu{
   display: none;
+}
+.showLocationMenu{
+  display: inline-flex;
 }
 /* The button to pull up the menu */
 #RollUpButton {
