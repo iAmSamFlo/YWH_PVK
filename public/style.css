@@ -80,7 +80,7 @@
 .MenuButtons {
   height: 15vw;
   width: 40vw;
-  background-color: transparent;
+  background-color: white;
   border-radius: 30px;
   border-width: 15px;
   border-color: white;
@@ -88,6 +88,10 @@
   margin-left: 5%; /* Add some spacing between buttons */
   margin-right: 5%;
   border-radius: 20px 20px 20px 20px;
+}
+.MenuButtons:active{
+  background-color: #c2c2c2;
+  border-color: #c2c2c2;  
 }
 #LocationButtons {
   display: none;
@@ -117,9 +121,9 @@
   padding-left: 15px;
 }
 #ButtonText {
-  color: white;
+  color: #7c41FA;
   font-size: 300%;
   font-family: "Montserrat", sans-serif;
-  font-weight: 500;
+  font-weight: 700;
   align-self: center;
 }
