@@ -2,6 +2,7 @@ class Menu {
     constructor() {
         this.isUp = false;
         this.inputField = document.getElementById("InputField");
+        this.buttons = document.querySelectorAll(".MenuButtons");
         this.inputValue = "";
         
         console.log("Input Field Element:", this.inputField);
