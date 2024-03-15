@@ -10,8 +10,13 @@ class MapManager {
     this.pinBtn = document.getElementById('ReviewBtn');
     this.saveBtn = document.getElementById('savePin');
     this.undoBtn = document.getElementById('undoPin');
+    this.exitBtn = document.getElementById('ExitBtn');
+    this.nextBtn = document.getElementById('NextBtn');
+    this.inputField = document.getElementById('InputField');
+
     this.locationMenu = document.getElementById('LocationMenu');
     this.noLocationMenu = document.getElementById('NoLocationMenu');
+    this.radiusSliderMenu = document.getElementById('RadiusSliderMenu');
     this.initMap();
     
   }
@@ -67,6 +72,11 @@ class MapManager {
 
     this.pinBtn.addEventListener('click', () => {
       this.enableDrawingManager();
+      this.setRadiusPin();
+    });
+
+    this.exitBtn.addEventListener('click', () => {
+      this.exitRadius();
     });
 
     google.maps.event.addListener(this.drawingManager, 'circlecomplete', (circle) => {
@@ -82,9 +92,12 @@ class MapManager {
 
   async handleCurrentLocation() {
     const locationButton = document.createElement('button');
-    locationButton.textContent = 'Pan to Current Location';
-    locationButton.classList.add('custom-map-control-button');
-    this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+    const icon = document.createElement('img');
+    icon.src = 'icons/arrow.png';
+    icon.classList.add('myLocationIcon');
+    locationButton.appendChild(icon);
+    locationButton.classList.add('myLocationButton');
+    this.map.controls[google.maps.ControlPosition.LEFT_CENTER].push(locationButton);
 
     locationButton.addEventListener('click', () => {
       this.panToCurrentLocation();
@@ -137,6 +150,22 @@ class MapManager {
     this.noLocationMenu.classList.remove('showLocationMenu');
 
     this.markerElement.position = mapsMouseEvent.latLng;
+  }
+
+  setRadiusPin() {
+    this.radiusSliderMenu.classList.remove('hideLocationMenu');
+    this.locationMenu.classList.add('hideLocationMenu');
+    this.radiusSliderMenu.classList.add('showLocationMenu');
+    this.locationMenu.classList.remove('showLocationMenu');
+    this.inputField.classList.add('hideInputField')
+  }
+
+  exitRadius() {
+    this.locationMenu.classList.remove('hideLocationMenu');
+    this.radiusSliderMenu.classList.add('hideLocationMenu');
+    this.locationMenu.classList.add('showLocationMenu');
+    this.radiusSliderMenu.classList.remove('showLocationMenu');
+    this.inputField.classList.remove('hideInputField');
   }
 
   setupBtns() {

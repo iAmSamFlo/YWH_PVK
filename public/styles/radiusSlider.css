@@ -1,0 +1,69 @@
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 45px;
+    height: 45px;
+    background: #3c207a;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    z-index: 2; /* Set a higher z-index for the slider thumb */
+}
+
+.slider-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 80%;
+    height: 35vw;
+    bottom: 60%;
+    /* max-width: 400px; */
+    text-align: center; 
+    margin-bottom: 20px;
+}
+
+.slider-value {
+    position: relative;
+    display: inline-block;
+    font-size: 40px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 800;
+    color: #FFFFFF;
+    border-radius: 5px;
+    pointer-events: none;
+    margin-top: 10px; /* Adjust the margin as needed */
+}
+
+.slider {
+    width: 100%;
+    height: 40px;
+    margin-top: 20px;
+    -webkit-appearance: none;
+    background: #fff;
+    outline: none;
+    opacity: 0.7;
+    border-radius: 20px;
+    -webkit-transition: .2s; 
+    transition: opacity .2s;
+}
+
+.text-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-left: 8px;
+}
+
+.radiusSliderText {
+    text-align: center;
+    margin-top: 20px;
+    display: inline-block;
+    font-size: 50px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+    color: #FFFFFF;
+}
