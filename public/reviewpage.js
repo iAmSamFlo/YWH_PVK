@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   var slider = document.getElementById("aslider");
   var sliderValueContainer = document.getElementById("sliderValueContainer");
-
+  
   slider.addEventListener("input", function () {
     if (slider.value === "1") {
       sliderValueContainer.textContent = "Very safe";
@@ -13,6 +13,9 @@ document.addEventListener("DOMContentLoaded", function () {
       sliderValueContainer.textContent = "Very unsafe";
     }
   });
+});
+document.getElementById("closebutton").addEventListener("click", function() {
+  window.location.href = "index.html"; 
 });
 
 var activeButton = null;
