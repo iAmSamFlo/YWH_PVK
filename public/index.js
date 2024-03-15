@@ -79,6 +79,10 @@ class MapManager {
       this.exitRadius();
     });
 
+    this.nextBtn.addEventListener('click', () => {
+      window.location.href = "reviewpage.html";
+    });
+
     google.maps.event.addListener(this.drawingManager, 'circlecomplete', (circle) => {
       this.handleCircleComplete(circle);
     });
