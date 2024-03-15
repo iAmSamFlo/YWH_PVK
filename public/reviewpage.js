@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 document.getElementById("closebutton").addEventListener("click", function() {
-  window.location.href = "index.html"; 
+  window.history.back();
 });
 
 var activeButton = null;
