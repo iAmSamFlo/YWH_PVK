@@ -63,16 +63,14 @@
   float:right;
   padding-top: 7px;
 }
-#LocationMenu {
-  justify-content: center; /* Align items to the end (right) of the container */
-  position: absolute;
-  bottom: 15%;
-  width: 100%; /* Ensure the container spans the full width of the menu */
+.btnDivs {
+    display: flex;
+    flex-direction: row;
 }
-#NoLocationMenu{
-  justify-content: center; /* Align items to the end (right) of the container */
+.menuDivs {
   position: absolute;
-  bottom: 15%;
+  align-items: center;
+  bottom: 10%;
   width: 100%;
 }
 .MenuButtons {
@@ -95,7 +93,8 @@
   display: none;
 }
 .showLocationMenu{
-  display: inline-flex;
+  display:flex;
+  flex-direction: column;
 }
 /* The button to pull up the menu */
 #RollUpButton {
@@ -121,10 +120,37 @@
   font-weight: 500;
   padding-left: 15px;
 }
+.hideInputField {
+  display: none;
+}
+
 #ButtonText {
   color: #7c41FA;
   font-size: 300%;
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
   align-self: center;
+}
+
+.myLocationButton {
+  position: relative;
+  padding: 10px;
+  height: 80px;
+  width: 80px;
+  background-color: white;
+  border-radius: 50%;
+  border-width: 0px;
+  border-color: black;
+  left: 10px;
+}
+.myLocationButton:active {
+  background-color: rgb(223, 223, 223);
+}
+.myLocationIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-55%, -50%);
+  width: 70px;
+  height: 70px;
 }
