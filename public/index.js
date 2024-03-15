@@ -135,9 +135,10 @@ async initSearch() {
     this.undoBtn.addEventListener('click', () => {
       this.deleteCircle();
     });
-    this.pinBtn.addEventListener('click', () => {
-      this.enableDrawingManager();
-      this.setRadiusPin();
+
+    this.reviewBtn.addEventListener('click', () => {
+      // this.enableDrawingManager();
+      this.review();
     });
 
     this.exitBtn.addEventListener('click', () => {
@@ -146,10 +147,6 @@ async initSearch() {
 
     this.nextBtn.addEventListener('click', () => {
       window.location.href = "reviewpage.html";
-      
-    this.reviewBtn.addEventListener('click', () => {
-      // this.enableDrawingManager();
-      this.review();
     });
     
     this.reviewMyLocation.addEventListener('click', () => {
@@ -271,7 +268,7 @@ async initSearch() {
     this.radiusSliderMenu.classList.remove('hideLocationMenu');
     this.locationMenu.classList.add('hideLocationMenu');
     this.radiusSliderMenu.classList.add('showLocationMenu');
-    this.locationMenu.classList.remove('showLocationMenu');
+    this.locationMenu.classList.remove('showLocationMenu');    
     this.inputField.classList.add('hideInputField')
   }
 
@@ -326,6 +323,7 @@ async initSearch() {
   }
 
   review(){
+    this.setRadiusPin();
     var pos =  this.markerElement.position;
     this.circle = new google.maps.Circle({
       map: this.map,
