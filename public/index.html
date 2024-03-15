@@ -28,10 +28,9 @@
         </span>
       </span>
     </div>
-
     <div id= "PopUpMenu" class="PopUpMenu">
       <a id="RollUpButton" onclick="menu.MenuMove()"></a>
-      <input id="InputField" type ="text" placeholder="Search">
+      <input id="InputField" class="controls" type ="text" placeholder="Search Box">
       <div id="LocationMenu" class="hideLocationMenu">
         <button id= "StartBtn" class="MenuButtons"><label id="ButtonText">START</label></button>
         <button id= "ReviewBtn" class="MenuButtons"><label id="ButtonText">REVIEW</label></button>
@@ -48,7 +47,7 @@
     <!-- prettier-ignore -->
     <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});
       var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));
-      e.set("libraries", [...r] + ",drawing");
+      e.set("libraries", [...r] + ",drawing,places");
       for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);
       e.set("callback",c+".maps."+q);
       a.src=`https://maps.${c}apis.com/maps/api/js?`+e;

@@ -12,6 +12,7 @@ class MapManager {
     this.locationMenu = document.getElementById('LocationMenu');
     this.noLocationMenu = document.getElementById('NoLocationMenu');
     this.reviewBtn = document.getElementById('ReviewBtn');
+    this.reviewMyLocation = document.getElementById('ReviewSpot');
     this.initMap();
     
   }
@@ -53,7 +54,64 @@ class MapManager {
     this.handleCurrentLocation();
     this.panToCurrentLocation();
     this.setupEventListeners();
+    this.initSearch();
   }
+
+
+  // Inside your MapManager class where you initialize the map
+async initSearch() {
+  // Your existing code for initializing the map
+  
+  const input = document.getElementById("InputField");
+  const searchBox = new google.maps.places.SearchBox(input);
+
+  // this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+  this.map.addListener("bounds_changed", () => {
+    searchBox.setBounds(this.map.getBounds());
+  });
+
+
+
+  searchBox.addListener("places_changed", () => {
+    const places = searchBox.getPlaces();
+
+    if (places.length == 0) {
+      return;
+    }
+
+
+
+    // const bounds = new google.maps.LatLngBounds();
+
+    // places.forEach((place) => {
+    var place = places[0];
+      if (!place.geometry || !place.geometry.location) {
+        console.log("Returned place contains no geometry");
+        return;
+      }
+
+      // const icon = {
+      //   url: place.icon,
+      //   size: new google.maps.Size(71, 71),
+      //   origin: new google.maps.Point(0, 0),
+      //   anchor: new google.maps.Point(17, 34),
+      //   scaledSize: new google.maps.Size(25, 25),
+      // };
+
+        this.marker.position = place.geometry.location;
+
+
+      // if (place.geometry.viewport) {
+      //   bounds.union(place.geometry.viewport);
+      // } else {
+      //   bounds.extend(place.geometry.location);
+      // }
+    });
+    // this.map.fitBounds(bounds);
+  // });
+}
+
 
   setupEventListeners() {
     this.saveBtn.addEventListener('click', () => {
@@ -66,8 +124,12 @@ class MapManager {
     });
 
     this.reviewBtn.addEventListener('click', () => {
-      this.enableDrawingManager();
+      // this.enableDrawingManager();
       this.review();
+    });
+    
+    this.reviewMyLocation.addEventListener('click', () => {
+      this.pinMyLocation();
     });
 
     google.maps.event.addListener(this.drawingManager, 'circlecomplete', (circle) => {
@@ -110,6 +172,26 @@ class MapManager {
       this.handleLocationError(false, this.map.getCenter());
     }
   }
+//exakt samma kod atm i dessa två. försökte optimisera men va för noobig 
+  async pinMyLocation(){
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            };
+            this.markerElement.position = pos;
+            this.review();
+          },
+          () => {
+            this.handleLocationError(true, this.map.getCenter());
+          },
+        );
+      } else {
+        this.handleLocationError(false, this.map.getCenter());
+      }
+  }
 
   handleLocationError(browserHasGeolocation, pos) {
     this.infoWindow = new google.maps.InfoWindow();
@@ -138,6 +220,7 @@ class MapManager {
 
     this.markerElement.position = mapsMouseEvent.latLng;
   }
+
 
   setupBtns() {
     this.undoBtn.classList.remove('nonVisible');
