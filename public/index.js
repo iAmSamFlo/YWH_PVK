@@ -63,29 +63,37 @@ async initSearch() {
   // Your existing code for initializing the map
   
   const input = document.getElementById("InputField");
-  const searchBox = new google.maps.places.SearchBox(input);
+  const options = {
+    bounds: this.map.restriction.latLngBounds,
+    componnentRestrictions: {country: "se"},
+    //fields: ["address_components", "geometry", "icon", "name", "url"],
+    fields: ["geometry"],
+    strictBounds: true,
+  }
+  const searchBox = new google.maps.places.Autocomplete(input, options);
+  // const searchBox = new google.maps.places.SearchBox(input);
 
   // this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-  this.map.addListener("bounds_changed", () => {
-    searchBox.setBounds(this.map.getBounds());
-  });
+  // this.map.addListener("bounds_changed", () => {
+  //   searchBox.setBounds(this.map.getBounds());
+  // });
 
 
 
-  searchBox.addListener("places_changed", () => {
-    const places = searchBox.getPlaces();
+  searchBox.addListener("place_changed", () => {
+    const place = searchBox.getPlace();
 
-    if (places.length == 0) {
-      return;
-    }
+    // if (places.length == 0) {
+    //   return;
+    // }
 
 
 
     // const bounds = new google.maps.LatLngBounds();
 
     // places.forEach((place) => {
-    var place = places[0];
+    
       if (!place.geometry || !place.geometry.location) {
         console.log("Returned place contains no geometry");
         return;
@@ -98,9 +106,9 @@ async initSearch() {
       //   anchor: new google.maps.Point(17, 34),
       //   scaledSize: new google.maps.Size(25, 25),
       // };
-
-        this.marker.position = place.geometry.location;
-
+        var pos = place.geometry.location;
+        this.markerElement.position = pos;
+        this.map.setCenter(pos);
 
       // if (place.geometry.viewport) {
       //   bounds.union(place.geometry.viewport);
@@ -191,6 +199,25 @@ async initSearch() {
       } else {
         this.handleLocationError(false, this.map.getCenter());
       }
+  }
+
+  async getCurrentLocation(){
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          return pos;
+        },
+        () => {
+          this.handleLocationError(true, this.map.getCenter());
+        },
+      );
+    } else {
+      this.handleLocationError(false, this.map.getCenter());
+    }
   }
 
   handleLocationError(browserHasGeolocation, pos) {
