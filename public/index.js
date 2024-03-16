@@ -65,34 +65,47 @@ async initSearch() {
     strictBounds: true,
   }
   const searchBox = new google.maps.places.Autocomplete(input, options);
-  // const searchBox = new google.maps.places.SearchBox(input);
 
-  // this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  //Kod från stackoverflow för att ta första optionen
+  /* Store original event listener */
+  const _addEventListener = input.addEventListener
 
-  // this.map.addListener("bounds_changed", () => {
-  //   searchBox.setBounds(this.map.getBounds());
-  // });
+  const addEventListenerWrapper = (type, listener) => {
+    if (type === 'keydown') {
+      /* Store existing listener function */
+      const _listener = listener
+      listener = (event) => {
+        /* Simulate a 'down arrow' keypress if no address has been selected */
+        const suggestionSelected = document.getElementsByClassName('pac-item-selected').length
+        if (event.key === 'Enter' && !suggestionSelected) {
+          const e = new KeyboardEvent('keydown', { 
+            key: 'ArrowDown', 
+            code: 'ArrowDown', 
+            keyCode: 40, 
+          })
+          _listener.apply(input, [e])
+        }
+        _listener.apply(input, [event])
+      }
+    }
+    _addEventListener.apply(input, [type, listener])
+  }
+  input.addEventListener = addEventListenerWrapper
 
-
-
+  //Listener if an alternative has been chosen from the dropdown list
   searchBox.addListener("place_changed", () => {
-    const place = searchBox.getPlace();
+    
+      //get the info from the chosen place
+      const place = searchBox.getPlace();
 
     // if (places.length == 0) {
     //   return;
     // }
-
-
-
-    // const bounds = new google.maps.LatLngBounds();
-
-    // places.forEach((place) => {
-    
+      //error handling kinda
       if (!place.geometry || !place.geometry.location) {
         console.log("Returned place contains no geometry");
         return;
       }
-
       // const icon = {
       //   url: place.icon,
       //   size: new google.maps.Size(71, 71),
@@ -100,18 +113,12 @@ async initSearch() {
       //   anchor: new google.maps.Point(17, 34),
       //   scaledSize: new google.maps.Size(25, 25),
       // };
+
+      //get the position and set a pin and pan to location 
         var pos = place.geometry.location;
         this.markerElement.position = pos;
         this.map.setCenter(pos);
-
-      // if (place.geometry.viewport) {
-      //   bounds.union(place.geometry.viewport);
-      // } else {
-      //   bounds.extend(place.geometry.location);
-      // }
     });
-    // this.map.fitBounds(bounds);
-  // });
 }
 
 
