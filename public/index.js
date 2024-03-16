@@ -2,13 +2,10 @@ class MapManager {
   constructor() {
     this.map = null;
     this.infoWindow = null;
-    this.drawingManager = null;
     this.markerElement = null;
     this.radius = null;
     this.coord = null;
     this.circle = null;
-    this.saveBtn = document.getElementById('savePin');
-    this.undoBtn = document.getElementById('undoPin');
     this.exitBtn = document.getElementById('ExitBtn');
     this.nextBtn = document.getElementById('NextBtn');
     this.inputField = document.getElementById('InputField');
@@ -17,14 +14,13 @@ class MapManager {
     this.noLocationMenu = document.getElementById('NoLocationMenu');
     this.radiusSliderMenu = document.getElementById('RadiusSliderMenu');
     this.reviewBtn = document.getElementById('ReviewBtn');
-    this.reviewMyLocation = document.getElementById('ReviewSpot');
+    this.reviewMyLocationBtn = document.getElementById('ReviewSpot');
     this.initMap();
     
   }
 
   async initMap() {
     const { Map } = await google.maps.importLibrary('maps');
-    const { DrawingManager } = await google.maps.importLibrary('drawing');
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
     const minZoom = 10;
@@ -44,13 +40,6 @@ class MapManager {
       mapTypeId: 'roadmap',
       streetViewControl: false,
       mapId: 'DEMO_MAP_ID',
-    });
-
-    this.drawingManager = new DrawingManager({
-      drawingControl: false,
-      drawingControlOptions: {
-        position: google.maps.ControlPosition.TOP_CENTER,
-      },
     });
 
     this.markerElement = new AdvancedMarkerElement({
@@ -127,18 +116,13 @@ async initSearch() {
 
 
   setupEventListeners() {
-    this.saveBtn.addEventListener('click', () => {
-      this.removeBtns();
-      this.saveData();
-    });
-
-    this.undoBtn.addEventListener('click', () => {
-      this.deleteCircle();
-    });
 
     this.reviewBtn.addEventListener('click', () => {
-      // this.enableDrawingManager();
       this.review();
+    });
+
+    this.reviewMyLocationBtn.addEventListener('click', () => {
+      this.pinMyLocation();
     });
 
     this.exitBtn.addEventListener('click', () => {
@@ -148,15 +132,6 @@ async initSearch() {
     this.nextBtn.addEventListener('click', () => {
       window.location.href = "reviewpage.html";
     });
-    
-    this.reviewMyLocation.addEventListener('click', () => {
-      this.pinMyLocation();
-    });
-
-    google.maps.event.addListener(this.drawingManager, 'circlecomplete', (circle) => {
-      this.handleCircleComplete(circle);
-    });
-
 
     google.maps.event.addListener(this.map, "click", (mapsMouseEvent) => { 
       this.setTempPin(mapsMouseEvent);
@@ -247,65 +222,35 @@ async initSearch() {
     this.infoWindow.open(this.map);
   }
 
-  enableDrawingManager() {
-    this.drawingManager.drawingControl = true;
-    this.drawingManager.drawingControlOptions = {
-      drawingModes: ['circle'],
-    };
-    this.drawingManager.setMap(this.map);  
-  }
-
   setTempPin(mapsMouseEvent){
-    this.locationMenu.classList.remove('hideLocationMenu');
-    this.noLocationMenu.classList.add('hideLocationMenu');
-    this.locationMenu.classList.add('showLocationMenu');
-    this.noLocationMenu.classList.remove('showLocationMenu');
+    this.locationMenu.classList.remove('nonVisible');
+    this.noLocationMenu.classList.add('nonVisible');
 
     this.markerElement.position = mapsMouseEvent.latLng;
   }
 
-  setRadiusPin() {
-    this.radiusSliderMenu.classList.remove('hideLocationMenu');
-    this.locationMenu.classList.add('hideLocationMenu');
-    this.radiusSliderMenu.classList.add('showLocationMenu');
-    this.locationMenu.classList.remove('showLocationMenu');    
+
+  setupRadiusSliderMenu() {
     this.inputField.classList.add('hideInputField')
+    this.locationMenu.classList.add('nonVisible');
+    this.noLocationMenu.classList.add('nonVisible');
+
+    this.radiusSliderMenu.classList.remove('nonVisible');
   }
 
   exitRadius() {
-    this.locationMenu.classList.remove('hideLocationMenu');
-    this.radiusSliderMenu.classList.add('hideLocationMenu');
-    this.locationMenu.classList.add('showLocationMenu');
-    this.radiusSliderMenu.classList.remove('showLocationMenu');
+    this.deleteCircle();
+    //TODO: om du var på din egna plats får du nu ändå alternativet start
+    this.locationMenu.classList.remove('nonVisible');
+    this.radiusSliderMenu.classList.add('nonVisible');
     this.inputField.classList.remove('hideInputField');
   }
 
-  setupBtns() {
-    this.undoBtn.classList.remove('nonVisible');
-    this.saveBtn.classList.remove('nonVisible');
-  }
 
   deleteCircle() {
     if (this.circle) {
       this.circle.setMap(null);
-      this.removeBtns();
     }
-  }
-
-  removeBtns() {
-    this.undoBtn.classList.add('nonVisible');
-    this.saveBtn.classList.add('nonVisible');
-  }
-
-  handleCircleComplete(circle) {
-    var maxRadius = 500;
-    if (circle.getRadius() > maxRadius) {
-      circle.setRadius(maxRadius);
-    }
-    this.radius = circle.getRadius();
-    this.coord = circle.getCenter();
-    this.circle = circle;
-    this.setupBtns();
   }
 
   async saveData() {
@@ -323,7 +268,7 @@ async initSearch() {
   }
 
   review(){
-    this.setRadiusPin();
+    this.setupRadiusSliderMenu();
     var pos =  this.markerElement.position;
     this.circle = new google.maps.Circle({
       map: this.map,

@@ -33,7 +33,7 @@
       <a id="RollUpButton" onclick="menu.MenuMove()"></a>
       <input id="InputField" class="controls" type ="text" placeholder="Search Box">
       
-      <div id="LocationMenu" class="menuDivs hideLocationMenu">
+      <div id="LocationMenu" class="menuDivs nonVisible">
         <div class="btnDivs">
           <button id= "StartBtn" class="MenuButtons"><label id="ButtonText">START</label></button>
           <button id= "ReviewBtn" class="MenuButtons"><label id="ButtonText">REVIEW</label></button>
@@ -46,7 +46,7 @@
         </div>
       </div>
 
-      <div id="RadiusSliderMenu" class="menuDivs hideLocationMenu">
+      <div id="RadiusSliderMenu" class="menuDivs nonVisible">
         <div id="radiusSlider" class="slider-container">
           <div class="text-container">
             <div class="radiusSliderText">Radius</div>
@@ -66,8 +66,6 @@
     </div>
     
     <div id="map"></div>
-    <button id="savePin" class="nonVisible">savePin</button>
-    <button id="undoPin" class="nonVisible">Undo</button>
     <!-- prettier-ignore -->
     <script>
       const API_KEY = "AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg"; //test api
