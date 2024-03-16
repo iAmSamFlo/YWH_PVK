@@ -3,9 +3,9 @@ class MapManager {
     this.map = null;
     this.infoWindow = null;
     this.markerElement = null;
-    this.radius = null;
     this.coord = null;
     this.circle = null;
+    this.radius = null;
     this.exitBtn = document.getElementById('ExitBtn');
     this.nextBtn = document.getElementById('NextBtn');
     this.inputField = document.getElementById('InputField');
@@ -15,6 +15,8 @@ class MapManager {
     this.radiusSliderMenu = document.getElementById('RadiusSliderMenu');
     this.reviewBtn = document.getElementById('ReviewBtn');
     this.reviewMyLocationBtn = document.getElementById('ReviewSpot');
+    this.radiusSlider = document.getElementById('RadiusSliderInput');
+    this.radiusSliderValue = document.getElementById('sliderValue');
     this.initMap();
     
   }
@@ -142,6 +144,10 @@ async initSearch() {
 
     google.maps.event.addListener(this.map, "click", (mapsMouseEvent) => { 
       this.setTempPin(mapsMouseEvent);
+    });
+
+    this.radiusSlider.addEventListener('input', () => {
+      this.handleRadiusSlider();
     });
 
   }
@@ -276,13 +282,43 @@ async initSearch() {
 
   review(){
     this.setupRadiusSliderMenu();
-    var pos =  this.markerElement.position;
+    this.coord =  this.markerElement.position;
+  }
+
+
+  handleRadiusSlider(){
+    var meter = 0;
+    var input = +this.radiusSlider.value; //convert from string to nr
+    switch (input){
+      case 1:
+        meter = 5;
+        break;
+      case 2:
+        meter = 15;
+        break;
+      case 3:
+        meter = 25;
+        break;      
+      case 4:
+        meter = 50;
+        break;
+      case 5:
+        meter = 75;
+        break;
+      case 6:
+        meter = 100;
+        break;
+    }
+    this.radius = meter;
+    this.radiusSliderValue.textContent = meter + "m";
+    this.deleteCircle();
     this.circle = new google.maps.Circle({
       map: this.map,
-      center: pos,
-      radius: 10,
+      center: this.coord,
+      radius: this.radius,
     });
   }
+
 }
 
 
