@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
   var unsafeButton = document.getElementById('unsafe');
   var safeButton = document.getElementById('safe');
   var activeButton = null;
+  var submitBtn = document.getElementById('SubmitBtn');
 
   // Set the default display of slider container to none
   sliderContainer.classList.add('invisible');
@@ -43,6 +44,9 @@ document.addEventListener("DOMContentLoaded", function() {
       clickedButton.classList.add('active');
       activeButton = clickedButton;
   }
+  submitBtn.addEventListener('click', function() {
+    window.location = "thankyoupage.html";
+  });
 
   unsafeButton.addEventListener('click', function() {
       changeOpacity(this);
