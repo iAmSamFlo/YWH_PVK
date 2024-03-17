@@ -22,7 +22,7 @@ body > div > .default-text {
     color: #FFFFFF;
     justify-content: center;
     text-align: center;
-    padding-top: 30px;
+    padding-top: 20px;
 }
 
 .slider-container {
@@ -153,7 +153,7 @@ body > div > .default-text {
     color: #7c41FA;
     border: 2px solid #3c207a;
     padding: 15px 20px;
-    margin: 10px;
+    margin: 5px;
     cursor: pointer;
     transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out;
     font-size: 18px;
@@ -179,4 +179,27 @@ textarea {
     padding: 10px; 
     box-sizing: border-box; 
     border-radius: 10px;
+}
+#SubmitBtn {
+    width: 40%;
+    height: 8vh;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #7c41FA;
+    font-size: 130%;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+    background-color: white;
+    border-radius: 30px;
+    border-width: 15px;
+    border-style: solid;
+    border-color: white;
+    margin-left: 5%; 
+    margin-right: 5%;
+    border-radius: 20px 20px 20px 20px;
+}
+#SubmitDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
