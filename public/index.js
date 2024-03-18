@@ -21,6 +21,9 @@ class MapManager {
     const { DrawingManager } = await google.maps.importLibrary('drawing');
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
+    var directionsService = new google.maps.DirectionsService();
+    var directionsRenderer = new google.maps.DirectionsRenderer();
+
     const minZoom = 10;
     this.map = new Map(document.getElementById('map'), {
       fullscreenControl: false,
@@ -47,6 +50,10 @@ class MapManager {
       },
     });
 
+
+    directionsRenderer.setMap(map);
+    directionsRenderer.setPanel(document.getElementById('directionsPanel'));
+
     this.markerElement = new AdvancedMarkerElement({
       map: this.map,
     })
@@ -54,6 +61,22 @@ class MapManager {
     this.panToCurrentLocation();
     this.setupEventListeners();
   }
+
+  async calcRoute() {
+    var start = document.getElementById('start').value;
+    var end = document.getElementById('end').value;
+    var request = {
+      origin: start,
+      destination: end,
+      travelMode: 'DRIVING'
+    };
+    directionsService.route(request, function(result, status) {
+      if (status == 'OK') {
+        directionsRenderer.setDirections(result);
+      }
+    });
+  }
+  
 
   setupEventListeners() {
     this.saveBtn.addEventListener('click', () => {
