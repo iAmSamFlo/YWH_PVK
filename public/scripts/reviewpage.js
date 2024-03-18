@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
   submitBtn.addEventListener('click', function() {
     window.location = "thankyoupage.html";
+    
   });
 
   unsafeButton.addEventListener('click', function() {
