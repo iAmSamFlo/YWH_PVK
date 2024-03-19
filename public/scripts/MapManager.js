@@ -18,7 +18,6 @@ class MapManager {
       this.radiusSlider = document.getElementById('RadiusSliderInput');
       this.radiusSliderValue = document.getElementById('sliderValue');
       this.initMap();
-      
     }
   
     async initMap() {

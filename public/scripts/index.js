@@ -1,2 +1,12 @@
+class Index {
+    constructor(){
+        const mapManager = new MapManager();
+    }
+}
 
-const mapManager = new MapManager();
+
+  
+
+
+
+
