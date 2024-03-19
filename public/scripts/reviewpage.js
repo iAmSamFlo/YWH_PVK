@@ -36,19 +36,19 @@ class ReviewPage {
       window.location = "thankyoupage.html";
       
     });
-    // this.unsafeButton.addEventListener('click', function() {
-    //   changeOpacity(this);
-    // });
-    // this.safeButtons.forEach(function(button) {
-    //   button.addEventListener('click', function() {
-    //       changeOpacity(this);
-    //   });
-    // });
-    // this.buttons.forEach(function(button) {
-    //   button.addEventListener('click', function() {
-    //       toggleButton(button);
-    //   });
-    // });
+    this.unsafeButton.addEventListener('click', function() {
+      changeOpacity(this);
+    });
+    this.safeButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+          changeOpacity(this);
+      });
+    });
+    this.buttons.forEach(function(button) {
+      button.addEventListener('click', function() {
+          toggleButton(button);
+      });
+    });
   }
 
   changeOpacity(clickedButton) {
