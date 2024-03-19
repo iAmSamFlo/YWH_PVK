@@ -8,9 +8,9 @@ class MapManager {
       this.radius = null;
       this.directionsRenderer = null;
       this.directionsService = null;     
-      this.endStop = document.getElementById('end');
       this.exitBtn = document.getElementById('ExitBtn');
       this.nextBtn = document.getElementById('NextBtn');
+      this.startBtn = document.getElementById('StartBtn');
       this.inputField = document.getElementById('InputField');
   
       this.locationMenu = document.getElementById('LocationMenu');
@@ -56,8 +56,9 @@ class MapManager {
       this.markerElement = new AdvancedMarkerElement({
         map: this.map,
       })
-      this.handleCurrentLocation();
       this.panToCurrentLocation();
+
+      this.setUpPanToBtn();
       this.setupEventListeners();
       this.initSearch();
     }
@@ -158,8 +159,14 @@ class MapManager {
         this.review();
       });
   
-      this.reviewMyLocationBtn.addEventListener('click', () => {
-        this.pinMyLocation();
+      this.reviewMyLocationBtn.addEventListener('click', async () => {
+        try {
+          var pos = await this.getCurrentLocation(); // Wait for the position to be obtained
+          this.markerElement.position = pos;
+          this.review();
+        } catch (error) {
+          console.error(error);
+        }
       });
   
       this.exitBtn.addEventListener('click', () => {
@@ -177,16 +184,16 @@ class MapManager {
       this.radiusSlider.addEventListener('input', () => {
         this.handleRadiusSlider();
       });
-      this.endStop.addEventListener('change', () => {
+
+      this.startBtn.addEventListener('click', async () => {
         console.log("changed");
-        var start = new google.maps.LatLng(59.32944, 18.06861);
-        var end = new google.maps.LatLng(59.32944, 18.09861);
+        var start = await this.getCurrentLocation();
+        var end = this.markerElement.position;
         this.calcRoute(start, end);
-      });
-  
+      })
     }
   
-    async handleCurrentLocation() {
+    async setUpPanToBtn() {
       const locationButton = document.createElement('button');
       const icon = document.createElement('img');
       icon.src = 'icons/arrow.png';
@@ -199,27 +206,9 @@ class MapManager {
         this.panToCurrentLocation();
       });
     }
-  
-    async panToCurrentLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            };
-            this.map.setCenter(pos);
-          },
-          () => {
-            this.handleLocationError(true, this.map.getCenter());
-          },
-        );
-      } else {
-        this.handleLocationError(false, this.map.getCenter());
-      }
-    }
-  //exakt samma kod atm i dessa två. försökte optimisera men va för noobig 
-    async pinMyLocation(){
+
+    async getCurrentLocation(){
+      return new Promise((resolve, reject) => {
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -227,35 +216,23 @@ class MapManager {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
               };
-              this.markerElement.position = pos;
-              this.review();
+              resolve(pos); // Resolve the promise with the position
             },
             () => {
               this.handleLocationError(true, this.map.getCenter());
+              reject("Error getting current position");
             },
           );
         } else {
           this.handleLocationError(false, this.map.getCenter());
+          reject("Geolocation not supported");
         }
+      });
     }
-  
-    async getCurrentLocation(){
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            };
-            return pos;
-          },
-          () => {
-            this.handleLocationError(true, this.map.getCenter());
-          },
-        );
-      } else {
-        this.handleLocationError(false, this.map.getCenter());
-      }
+
+    async panToCurrentLocation(){
+      var pos = await this.getCurrentLocation();
+      this.map.setCenter(pos);
     }
   
     handleLocationError(browserHasGeolocation, pos) {
@@ -316,7 +293,9 @@ class MapManager {
   
     review(){
       this.setupRadiusSliderMenu();
-      this.coord =  this.markerElement.position;
+      var pos =  this.markerElement.position;
+      this.map.setCenter(pos);
+      this.coord = pos;
     }
   
   
