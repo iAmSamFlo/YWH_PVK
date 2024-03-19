@@ -6,6 +6,9 @@ class MapManager {
       this.coord = null;
       this.circle = null;
       this.radius = null;
+      this.directionsRenderer = null;
+      this.directionsService = null;     
+      this.endStop = document.getElementById('end');
       this.exitBtn = document.getElementById('ExitBtn');
       this.nextBtn = document.getElementById('NextBtn');
       this.inputField = document.getElementById('InputField');
@@ -23,6 +26,11 @@ class MapManager {
     async initMap() {
       const { Map } = await google.maps.importLibrary('maps');
       const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+      const { DirectionsService } = await google.maps.importLibrary('routes');
+      const { DirectionsRenderer } = await google.maps.importLibrary('routes');
+
+      this.directionsService = new DirectionsService();
+      this.directionsRenderer = new DirectionsRenderer();
   
       const minZoom = 10;
       this.map = new Map(document.getElementById('map'), {
@@ -42,7 +50,9 @@ class MapManager {
         streetViewControl: false,
         mapId: 'DEMO_MAP_ID',
       });
-  
+
+      this.directionsRenderer.setMap(this.map);
+
       this.markerElement = new AdvancedMarkerElement({
         map: this.map,
       })
@@ -51,7 +61,26 @@ class MapManager {
       this.setupEventListeners();
       this.initSearch();
     }
-  
+  calcRoute(start, dest) {
+    var selectedMode = 'WALKING';
+    var request = {
+        origin: start,
+        destination: dest,
+        travelMode: google.maps.TravelMode[selectedMode],
+        provideRouteAlternatives: true
+    };
+    this.directionsService.route(request, (result, status) => {
+        if (status == 'OK') {
+            // result.routes.forEach(route => {
+              // this.directionsRenderer.setDirections(route);
+            // });
+            this.directionsRenderer.setDirections(result);
+            console.log("success");
+        }  else {
+          console.error("Directions request failed with status:", status);
+      }
+    });
+}
   
     // Inside your MapManager class where you initialize the map
   async initSearch() {
@@ -147,6 +176,12 @@ class MapManager {
   
       this.radiusSlider.addEventListener('input', () => {
         this.handleRadiusSlider();
+      });
+      this.endStop.addEventListener('change', () => {
+        console.log("changed");
+        var start = new google.maps.LatLng(59.32944, 18.06861);
+        var end = new google.maps.LatLng(59.32944, 18.09861);
+        this.calcRoute(start, end);
       });
   
     }
