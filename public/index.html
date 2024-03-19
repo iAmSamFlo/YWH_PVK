@@ -7,11 +7,12 @@
     <link rel="stylesheet" type="text/css" href="./styles/header.css" />
     <link rel="stylesheet" type="text/css" href="./styles/menu.css" />
     <link rel="stylesheet" type="text/css" href="./styles/radiusSlider.css" />
-    <script type="module" src="./scripts/index.js"></script>
+    
     <script src="./scripts/Menu.js"></script>
+    <script src="./scripts/Index.js"> </script>
     <script type="text/JavaScript" src="./scripts/slideinmenu.js"></script>
-    <script type="text/JavaScript" src="./scripts/MapManager.js"></script>
-    <!-- <link rel="import" href="frame.html"> -->
+    
+    
   </head>
   <body>
     <header>
@@ -79,12 +80,14 @@
       a.nonce=m.querySelector("script[nonce]")?.nonce||"";
       m.head.append(a)}));
       d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
-        ({key: API_KEY, v: "weekly"});
-        
-         
+      ({key: API_KEY, v: "weekly"});
     </script>
     <script>
       const menu = new Menu();
+    </script>
+    <script type="text/JavaScript" src="./scripts/MapManager.js"></script>
+    <script>
+      const index = new Index();
     </script>
   </body>
 </html>
