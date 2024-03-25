@@ -138,6 +138,9 @@ class MapManager {
       });
   
       this.nextBtn.addEventListener('click', () => {
+        localStorage.setItem('coord', JSON.stringify(this.coord));
+        localStorage.setItem('coord', JSON.stringify(this.coord));
+        console.log(this.coord);
         window.location.href = "reviewpage.html";
       });
   
@@ -256,6 +259,7 @@ class MapManager {
       this.locationMenu.classList.remove('nonVisible');
       this.radiusSliderMenu.classList.add('nonVisible');
       this.inputField.classList.remove('hideInputField');
+      
     }
   
   

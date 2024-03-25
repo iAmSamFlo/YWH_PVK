@@ -34,6 +34,8 @@ class ReviewPage {
     });
     this.submitBtn.addEventListener("click", () => {
       window.location = "thankyoupage.html";
+      var coord = localStorage.getItem('coord');
+      console.log(JSON.parse(coord));
       
     });
     this.unsafeButton.addEventListener('click', function() {
