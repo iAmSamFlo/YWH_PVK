@@ -42,23 +42,31 @@
         <input type="range" min="1" max="4" value="1" class="slider" id="aslider">
     </div>
 
-    <div> <span class = "default-text">
-            Add tags
+    <div>
+        <span class="default-text">
+            When is this relevant?
         </span>
-
-        <div class="button-container" id = "SafeUnsafe">
-            <button type="button" class = "safebuttons" id="safe" onclick="reviewPage.changeOpacity(this)">Safe</button>
-            <button type="button" class = "safebuttons" id="unsafe" onclick="reviewPage.changeOpacity(this)">Unsafe</button>
+        <div class="button-container">
+            <button type="button" class = "tag" id="tag1" onclick="reviewPage.toggleButton(this)">Daytime</button>
+            <button type="button" class = "tag" id="tag2" onclick="reviewPage.toggleButton(this)">Nighttime</button>
         </div>
-        
+
+    </div>
+
+    <div> 
+        <span class = "default-text">
+            What made you feel this way?
+        </span>
         
         <div class="button-container">
             <button type="button" class = "tag" id="tag1" onclick="reviewPage.toggleButton(this)">Tag 1</button>
             <button type="button" class = "tag" id="tag2" onclick="reviewPage.toggleButton(this)">Tag 2</button>
+            <button type="button" class = "tag" id="tag3" onclick="reviewPage.toggleButton(this)">Tag 3</button>
         </div>
         <div class = "button-container">
-            <button type="button" class = "tag" id="tag3" onclick="reviewPage.toggleButton(this)">Tag 3</button>
             <button type="button" class = "tag" id="tag4" onclick="reviewPage.toggleButton(this)">Tag 4</button>
+            <button type="button" class = "tag" id="tag5" onclick="reviewPage.toggleButton(this)">Tag 5</button>
+            <button type="button" class = "tag" id="tag6" onclick="reviewPage.toggleButton(this)">Tag 6</button>
         </div>
         
         <div class="container default-text" >

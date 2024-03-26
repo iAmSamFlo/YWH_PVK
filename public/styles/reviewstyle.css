@@ -115,39 +115,6 @@ body > div > .default-text {
     text-align: center;
 }
 
-.safebuttons {
-    padding: 15px 20px;
-    margin: 10px;
-    cursor: pointer;
-    transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out;
-    font-size: 18px;
-    border: none;
-    border-radius: 5px;
-    opacity: 0.4;
-    color: white;
-  }
-
-  #SafeUnsafe{
-    margin-top: 20px;
-  }
-
-  #safe {
-    background-color: green;
-  }
-
-  #unsafe {
-    background-color: red;
-  }
-
-  .safebuttons.active {
-    opacity: 1;
-  }
-
-  .safebuttons:not(.active):hover {
-    opacity: 0.4;
-  }
-
-
   .tag{
     background-color: #7c41FA;
     color: #7c41FA;
