@@ -6,13 +6,9 @@ class ReviewPage {
     this.sliderValueContainer = document.getElementById("sliderValueContainer");
     this.activeButton = null;
     this.sliderContainer = document.getElementById('sliderContainer');
-    this.safeButtons = document.querySelectorAll('.safebuttons');
-    this.unsafeButton = document.getElementById('unsafe');
-    this.safeButton = document.getElementById('safe');
     this.activeButton = null;
     // this.sliderContainer.classList.add('invisible');
     this.buttons = document.querySelectorAll('.tag');
-
     this.setupEventListeners();
   }
 
@@ -38,14 +34,7 @@ class ReviewPage {
       console.log(JSON.parse(coord));
       
     });
-    this.unsafeButton.addEventListener('click', function() {
-      changeOpacity(this);
-    });
-    this.safeButtons.forEach(function(button) {
-      button.addEventListener('click', function() {
-          changeOpacity(this);
-      });
-    });
+    
     this.buttons.forEach(function(button) {
       button.addEventListener('click', function() {
           toggleButton(button);
