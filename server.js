@@ -3,7 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 app.use(bodyParser.json());
 
@@ -12,6 +12,7 @@ let backendCoord;
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public', { 'Content-Type': 'application/javascript' }));
 
 // Handle the button click data
 app.post('/sendData', (req, res) => {
