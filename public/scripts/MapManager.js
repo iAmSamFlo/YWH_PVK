@@ -2,7 +2,6 @@ class MapManager {
 
     constructor() {
       this.secret = null;
-      getSecret();
 
       this.map = null;
       this.infoWindow = null;
@@ -21,12 +20,13 @@ class MapManager {
       this.reviewMyLocationBtn = document.getElementById('ReviewSpot');
       this.radiusSlider = document.getElementById('RadiusSliderInput');
       this.radiusSliderValue = document.getElementById('sliderValue');
-      this.setMapScript();
+      
+      
       this.initMap();
     }
 
     async setMapScript() {
-      // const API_KEY = "AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg"; //test api
+      await this.getSecret();
       const API_KEY = this.secret;
       (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});
       var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));
@@ -44,15 +44,18 @@ class MapManager {
 
     async getSecret() {
       try {
-        const response = await fetch('/get-secret');
-        this.secret = await response.text();
-        // Now you can use the secret in your client-side code
+          const response = await fetch('/get-secret');
+          const recived = await response.text();
+          this.secret = recived;
+          console.log('Key recived:',this.secret);
+          // Now you can use the secret in your client-side code
       } catch (error) {
-        console.error('Error fetching secret:', error);
+          console.error('Error fetching secret:', error);
       }
-    }
+  }
   
     async initMap() {
+      await this.setMapScript();
       const { Map } = await google.maps.importLibrary('maps');
       const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
   
