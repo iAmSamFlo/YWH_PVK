@@ -1,5 +1,9 @@
 class MapManager {
+
     constructor() {
+      this.secret = null;
+      getSecret();
+
       this.map = null;
       this.infoWindow = null;
       this.markerElement = null;
@@ -17,7 +21,35 @@ class MapManager {
       this.reviewMyLocationBtn = document.getElementById('ReviewSpot');
       this.radiusSlider = document.getElementById('RadiusSliderInput');
       this.radiusSliderValue = document.getElementById('sliderValue');
+      this.setMapScript();
       this.initMap();
+    }
+
+    async setMapScript() {
+      // const API_KEY = "AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg"; //test api
+      const API_KEY = 
+      (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});
+      var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));
+      e.set("libraries", [...r] + ",drawing,places");
+      for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);
+      e.set("callback",c+".maps."+q);
+      a.src=`https://maps.${c}apis.com/maps/api/js?`+e;
+      console.log(a.src);
+      d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));
+      a.nonce=m.querySelector("script[nonce]")?.nonce||"";
+      m.head.append(a)}));
+      d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+      ({key: API_KEY, v: "weekly"});
+    }
+
+    async getSecret() {
+      try {
+        const response = await fetch('/get-secret');
+        this.secret = await response.text();
+        // Now you can use the secret in your client-side code
+      } catch (error) {
+        console.error('Error fetching secret:', error);
+      }
     }
   
     async initMap() {
