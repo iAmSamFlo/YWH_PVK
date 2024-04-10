@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "express": "^4.19.1"
+    "express": "^4.19.1",
+    "@google-cloud/secret-manager": "^3.0.0"
   },
   "scripts": {
     "start": "node server.js" ,
