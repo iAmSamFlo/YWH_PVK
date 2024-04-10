@@ -67,9 +67,8 @@ class MapManager {
   }
 
   calcRoute(start, dest) {
-    var selectedMode = 'WALKING'; //TODO: Fixa alternativ
+    var selectedMode = 'WALKING'; //TODO: Fixa komunalt alternativ
   
-
     var request = {
       origin: start,
       destination: dest,
@@ -82,7 +81,15 @@ class MapManager {
       if (status == 'OK') {
         if (result && result.routes) {
           // Clear previous routes if any
-          this.directionsRenderer.setMap(null);
+          for (let i = 0; i < this.directionsRenderers.length; i++) {
+            const renderer = this.directionsRenderers[i];
+            renderer.setMap(null); // Remove the renderer from the map
+          }
+          // Remove the route-info divs from the DOM
+          const routeInfoDivs = document.querySelectorAll('.route-info');
+          routeInfoDivs.forEach(div => div.remove());
+          // Empty the directionsRenderers list
+          this.directionsRenderers = [];
 
           let minTurns = Infinity;
           let minTurnsIndex = -1;
@@ -96,7 +103,7 @@ class MapManager {
 
             const directionsRenderer = new google.maps.DirectionsRenderer({
               polylineOptions: {
-                  strokeColor: this.getColor(i), // Function to get a color based on index
+                  strokeColor: '#B48CFE', 
                   strokeOpacity: 1.0,
                   strokeWeight: 4
               }
@@ -104,7 +111,6 @@ class MapManager {
             directionsRenderer.setMap(this.map);
             directionsRenderer.setDirections(result);
             directionsRenderer.setRouteIndex(i);
-            // directionsRenderer.setPanel(document.getElementById('directionsPanel'));
 
             // Push each DirectionsRenderer instance to the array
             this.directionsRenderers.push(directionsRenderer);
@@ -131,31 +137,31 @@ class MapManager {
             // Push duration time and total distance to respective arrays
             durationTimes.push(durationInMinutes);
             totalDistances.push(distanceInKilometers);
-            console.log("duration", i, durationInMinutes, "distance", distanceInKilometers)
 
+            console.log(i,":  duration-", durationInMinutes, "distance-", distanceInKilometers)
 
 
             // Create a div to display route information
             const routeDiv = document.createElement('div');
-            routeDiv.classList.add('route-info'); // TODO felicias klass
+            routeDiv.classList.add('route-info'); // TODO felicia måste skapa css klass
+            routeDiv.id = 'route'+i;
 
             // Set content for the route div
             routeDiv.innerHTML = `
                 <p>Duration: ${durationInMinutes} minutes</p>
                 <p>Distance: ${distanceInKilometers} km</p>
             `;
-            // Append the route div to a container element (e.g., a div with id "routeContainer")
+            //TODO: lägg till en knapp som bekräftar rutt och tar bort resterande rutter, öppnar upp för ny vy?
+            // Append the route div to a container element (e.x, a div with id "routeContainer")
             this.locationMenu.appendChild(routeDiv);
 
             // Add click event listeners to route divs
             routeDiv.addEventListener('click', () => {
-              // Implement logic to select the corresponding route
               this.selectRoute(i);
             });
 
             // Add click event listeners to DirectionsRenderer objects
             google.maps.event.addListener(directionsRenderer, 'click', () => {
-              // Implement logic to select the corresponding route
               this.selectRoute(i);
             });
           }
@@ -163,6 +169,11 @@ class MapManager {
 
           if (minTurnsIndex !== -1) {
             console.log("Route with least turns:", minTurnsIndex);
+            // Create a new <p> element
+            const newParagraph = document.createElement('p');
+            // Set text content for the new <p> element
+            newParagraph.textContent = 'Route with least turns:';
+            document.getElementById("route"+minTurnsIndex).appendChild(newParagraph);
           } else {
             console.error("No routes found or error occurred.");
           }
@@ -178,22 +189,26 @@ class MapManager {
 
   // Function to select the route
   selectRoute(routeIndex) {
-    // Highlight the selected route or perform any other desired action
     console.log('Route selected:', routeIndex);
 
-    for(let i = 0; i < this.directionsRenderers.length; i++){
-      this.directionsRenderers[i].setOptions({zIndex: i});
-    }
-    // set the zIndex of this DirectionsRenderer to a high value
-    this.directionsRenderers[routeIndex].setOptions({ zIndex: 1000 });
+    //TODO: att selecta route funkar ejj
+    // Reset the stroke color for all routes and Highlight the selected route 
+    this.directionsRenderers.forEach((renderer, index) => {
+      const color = (index === routeIndex) ? '#7c41FA' : '#B48CFE';
+      renderer.setOptions({
+          polylineOptions: {
+              strokeColor: color
+          }
+      });
+    });
   }
 
-  getColor(index) {
-    const colors = ['#7c41FA', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF']; // Add more colors as needed
-    return colors[index % colors.length];
-  }
+  // getColor(index) {
+  //   const colors = ['#7c41FA', '#B48CFE', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF']; //TODO: felicia får bestämma färger
+  //   return colors[index % colors.length];
+  // }
   
-  async initSearch() {    
+  async initSearch() {
     const input = document.getElementById("InputField");
     const options = {
       bounds: this.map.restriction.latLngBounds,
@@ -379,7 +394,6 @@ class MapManager {
 
   exitRadius() {
     this.deleteCircle();
-    //TODO: om du var på din egna plats får du nu ändå alternativet start
     this.locationMenu.classList.remove('nonVisible');
     this.radiusSliderMenu.classList.add('nonVisible');
     this.inputField.classList.remove('hideInputField');
