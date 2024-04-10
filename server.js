@@ -17,18 +17,16 @@ app.use(express.static('public', { 'Content-Type': 'application/javascript' }));
 
 // The secret value is global for snappy reuse.
 let secret = process.env.GoogleMapsAPI;
+// let secret = "AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg";
 
-app.get('/get-secret', async(req, res) =>{
-    if(!secret) {
-        try {
-            secret = await getSecret();
-        } catch (e) {
-            console.error(e);
-            res.status(500).send('Error fetching secret');
-            return;
-        }
+app.get('/get-secret', async (req, res) => {
+    try {
+        // Logic to fetch the secret
+        res.send(secret);
+    } catch (error) {
+        console.error('Error fetching secret:', error);
+        res.status(500).send('Error fetching secret');
     }
-    res.send(secret);
 });
 
 // Handle the button click data
