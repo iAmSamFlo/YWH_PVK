@@ -151,11 +151,12 @@ class MapManager {
                 <p>Duration: ${durationInMinutes} minutes</p>
                 <p>Distance: ${distanceInKilometers} km</p>
             `;
-            //TODO: lägg till en knapp som bekräftar rutt och tar bort resterande rutter, öppnar upp för ny vy?
+            //TODO: lägg till en knapp som bekräftar rutt och tar bort resterande rutter, öppnar upp för ny navigationsvy?
             // Append the route div to a container element (e.x, a div with id "routeContainer")
             this.locationMenu.appendChild(routeDiv);
 
             // Add click event listeners to route divs
+            //TODO: funkar ej
             routeDiv.addEventListener('click', () => {
               this.selectRoute(i);
             });
