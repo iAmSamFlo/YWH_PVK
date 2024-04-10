@@ -104,7 +104,7 @@
   top: 10px; /* Position at the top of the menu */
   left: 50%; /* Center horizontally */
   transform: translateX(-50%); /* Center horizontally */
-  margin: 15px;
+  margin: 30px;
 }
 #InputField{
   position: absolute;
