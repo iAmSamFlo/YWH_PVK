@@ -44,7 +44,7 @@
   width: 40vw;
   position: fixed;
   z-index: 6;
-  right: 0;
+  right: -500;
   border-style: solid;
   border-radius: 0px 0px 0px 80px;
   border-width: 20px 0px 20px 20px;
