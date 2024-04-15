@@ -29,7 +29,7 @@ class MapManager {
     const { DirectionsService } = await google.maps.importLibrary('routes');
     const { DirectionsRenderer } = await google.maps.importLibrary('routes');
     // Hämta belysningsdata från LvWS API
-    const lightingData = await this.fetchLightingData();
+    // const lightingData = await this.fetchLightingData();
 
     this.directionsService = new DirectionsService();
     this.directionsRenderer = new DirectionsRenderer();
@@ -69,7 +69,7 @@ class MapManager {
     this.initSearch();
 
     // Lägg till belysningsmarkörer på kartan
-    this.addLightingMarkers(lightingData);
+    // this.addLightingMarkers(lightingData);
   }
 
   calcRoute(start, dest) {
@@ -366,6 +366,9 @@ class MapManager {
     try {
       var pos = await this.getCurrentLocation();
       this.map.setCenter(pos);
+      this.markerElement.position = pos;
+      this.locationMenu.classList.add('nonVisible');
+      this.noLocationMenu.classList.remove('nonVisible');
     } catch (error){
       console.error(error);
     }
@@ -469,24 +472,24 @@ class MapManager {
   }
 
   
-  async fetchLightingData() {
-    // Anropa LvWS API för att hämta belysningsdata
-    const response = await fetch('https://openstreetws.stockholm.se/LvWS-4.0/Lv.svc/json/CountFeaturesForFeatureType?apikey=4c710633-77ad-427d-a305-41409a2f0370&featureTypename=Belysningsmontage');
-    const data = await response.json();
-    return data;
-  }
+  // async fetchLightingData() {
+  //   // Anropa LvWS API för att hämta belysningsdata
+  //   const response = await fetch('https://openstreetws.stockholm.se/LvWS-4.0/Lv.svc/json/CountFeaturesForFeatureType?apikey=4c710633-77ad-427d-a305-41409a2f0370&featureTypename=Belysningsmontage');
+  //   const data = await response.json();
+  //   return data;
+  // }
   
-  addLightingMarkers(lightingData) {
-    // Loopa genom belysningsdata och lägg till markörer på kartan för varje belysningsarmatur
-    lightingData.forEach(lighting => {
-      const marker = new google.maps.Marker({
-        position: { lat: lighting.lat, lng: lighting.lng },
-        map: this.map,
-        title: lighting.name,
-        icon: './icons/arrow.png' // Byt ut med rätt URL för belysningsikon
-      });
-    });
-  }
+  // addLightingMarkers(lightingData) {
+  //   // Loopa genom belysningsdata och lägg till markörer på kartan för varje belysningsarmatur
+  //   lightingData.forEach(lighting => {
+  //     const marker = new google.maps.Marker({
+  //       position: { lat: lighting.lat, lng: lighting.lng },
+  //       map: this.map,
+  //       title: lighting.name,
+  //       icon: './icons/arrow.png' // Byt ut med rätt URL för belysningsikon
+  //     });
+  //   });
+  // }
 
 }
 
