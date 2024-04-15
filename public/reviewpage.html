@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./styles/style.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/header.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/menu.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/reviewstyle.css" />
+    <script type="module" src="./scripts/Index.js"></script>
+    <!-- <script type="module" src="./scripts/MapManager.js"></script> -->
+    <!-- <script type="text/JavaScript" src="./Pin.js"></script> -->
+    <script type="text/JavaScript" src="./scripts/Menu.js"></script>
+    <script type="text/JavaScript" src="./scripts/slideinmenu.js"></script>
+    <script src="./scripts/reviewpage.js"></script>
+    <!-- <script src="./scripts/MapManager.js" type="text/JavaScript"></script> -->
+    
+</head>
+<body>
+    <header>
+        <img src="icons/YWHLogo.png" id="YWHLogo">
+        <span>
+            Make a review
+        </span>
+        <img src="icons/cross.png" id="closebutton">
+    </header>
+    
+
+    <div>
+        <span class = "default-text">
+            How did this place make you feel?
+        </span>
+    </div>
+    
+   
+    <div id="sliderContainer" class="slider-container">
+        <div id="sliderValueContainer" class="slider-value">
+            <span id="sliderValue">Very safe</span>
+        </div>
+        <input type="range" min="1" max="4" value="1" class="slider" id="aslider">
+    </div>
+
+    <div> <span class = "default-text">
+            Add tags
+        </span>
+
+        <div class="button-container" id = "SafeUnsafe">
+            <button type="button" class = "safebuttons" id="safe" onclick="reviewPage.changeOpacity(this)">Safe</button>
+            <button type="button" class = "safebuttons" id="unsafe" onclick="reviewPage.changeOpacity(this)">Unsafe</button>
+        </div>
+        
+        
+        <div class="button-container">
+            <button type="button" class = "tag" id="tag1" onclick="reviewPage.toggleButton(this)">Tag 1</button>
+            <button type="button" class = "tag" id="tag2" onclick="reviewPage.toggleButton(this)">Tag 2</button>
+        </div>
+        <div class = "button-container">
+            <button type="button" class = "tag" id="tag3" onclick="reviewPage.toggleButton(this)">Tag 3</button>
+            <button type="button" class = "tag" id="tag4" onclick="reviewPage.toggleButton(this)">Tag 4</button>
+        </div>
+        
+        <div class="container default-text" >
+            <div>
+                <span class="default-text">Additional Comment</span>
+                <form action="#" method="post" id = "additionalcomment">
+                    <textarea id="comment" name="comment" placeholder="Enter your additional comment here..."></textarea>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="SubmitDiv">
+        <button id="SubmitBtn">SUBMIT</button>
+    </div>
+
+    <script>
+        const reviewPage = new ReviewPage();
+    </script>       
+</body>
+
+</html>
