@@ -70,6 +70,7 @@ class MapManager {
 
     // Lägg till belysningsmarkörer på kartan
     // this.addLightingMarkers(lightingData);
+    this.addLightingFixturesToMap();
   }
 
   calcRoute(start, dest) {
@@ -490,6 +491,34 @@ class MapManager {
   //     });
   //   });
   // }
+
+  // Function to retrieve data from GeoPackage
+  async fetchDataFromGeoPackage() {
+
+    const loadGpkg = await import('turf-gpkg');
+    // Use Turf.js to load GeoPackage data
+    const response = await fetch('./Belysningsmontage_Punkt.gpkg');
+    const buffer = await response.arrayBuffer();
+    const data = await loadGpkg(buffer); // Use Turf-GPKG or similar library to parse GeoPackage data
+    return data;
+  }
+
+  // Function to add lighting fixtures to the map
+  async addLightingFixturesToMap() {
+    const lightingData = await this.fetchDataFromGeoPackage();
+    
+    // Loop through lighting data and add markers to the map
+    lightingData.features.forEach(feature => {
+        const coordinates = feature.geometry.coordinates;
+        const marker = new google.maps.Marker({
+            position: { lat: coordinates[1], lng: coordinates[0] },
+            map: map,
+            title: feature.properties.name // Adjust this to match your GeoPackage schema
+        });
+    });
+  }
+
+  
 
 }
 
