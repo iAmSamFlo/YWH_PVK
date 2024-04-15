@@ -28,8 +28,6 @@ class MapManager {
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
     const { DirectionsService } = await google.maps.importLibrary('routes');
     const { DirectionsRenderer } = await google.maps.importLibrary('routes');
-    // Hämta belysningsdata från LvWS API
-    // const lightingData = await this.fetchLightingData();
 
     this.directionsService = new DirectionsService();
     this.directionsRenderer = new DirectionsRenderer();
@@ -68,8 +66,6 @@ class MapManager {
     this.setupEventListeners();
     this.initSearch();
 
-    // Lägg till belysningsmarkörer på kartan
-    // this.addLightingMarkers(lightingData);
   }
 
   calcRoute(start, dest) {
@@ -372,7 +368,6 @@ class MapManager {
     } catch (error){
       console.error(error);
     }
-
   }
 
   handleLocationError(browserHasGeolocation, pos) {
@@ -470,26 +465,6 @@ class MapManager {
       radius: this.radius,
     });
   }
-
-  
-  // async fetchLightingData() {
-  //   // Anropa LvWS API för att hämta belysningsdata
-  //   const response = await fetch('');
-  //   const data = await response.json();
-  //   return data;
-  // }
-  
-  // addLightingMarkers(lightingData) {
-  //   // Loopa genom belysningsdata och lägg till markörer på kartan för varje belysningsarmatur
-  //   lightingData.forEach(lighting => {
-  //     const marker = new google.maps.Marker({
-  //       position: { lat: lighting.lat, lng: lighting.lng },
-  //       map: this.map,
-  //       title: lighting.name,
-  //       icon: './icons/arrow.png' // Byt ut med rätt URL för belysningsikon
-  //     });
-  //   });
-  // }
 
 }
 

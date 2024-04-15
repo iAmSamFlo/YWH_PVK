@@ -3,10 +3,10 @@ let slidemenuopen = false;
 function OpenSlideMenu(){
     const slidemenu = document.getElementById("SlideinMenu")
     if (slidemenuopen){
-        slidemenu.style.right = 0;
+        slidemenu.style.right = -500;
         slidemenuopen = false;
     } else {
-        slidemenu.style.right = -500;
+        slidemenu.style.right = 0;
         slidemenuopen = true;
     }
 }
