@@ -1,0 +1,45 @@
+body > div > .default-text {
+    display: flex;
+    width: 100%;
+    font-size: 155%;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    color: #FFFFFF;
+    justify-content: center;
+    text-align: center;
+    padding-top: 20px;
+}
+#FinishBtn {
+    width: 40%;
+    height: 8vh;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #7c41FA;
+    font-size: 130%;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+    background-color: white;
+    border-radius: 30px;
+    border-width: 15px;
+    border-style: solid;
+    border-color: white;
+    margin-left: 5%; 
+    margin-right: 5%;
+    border-radius: 20px 20px 20px 20px;
+}
+#FinishDiv {
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    bottom: 5%;
+}
+#Mailicon {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
