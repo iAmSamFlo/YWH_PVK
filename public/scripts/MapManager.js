@@ -23,6 +23,7 @@ class MapManager {
       
       
       this.initMap();
+      this.getDatabase();
     }
 
     async setMapScript() {
@@ -47,7 +48,18 @@ class MapManager {
           const response = await fetch('/get-secret');
           const recived = await response.text();
           this.secret = recived;
-          console.log('Key recived:',this.secret);
+          // console.log('Key recived:',this.secret);
+          // Now you can use the secret in your client-side code
+      } catch (error) {
+          console.error('Error fetching secret:', error);
+      }
+    }
+
+    async getDatabase() {
+      try {
+          const response = await fetch('/get-database');
+          const recived = await response.text();
+          console.log('Data recived:', recived);
           // Now you can use the secret in your client-side code
       } catch (error) {
           console.error('Error fetching secret:', error);
