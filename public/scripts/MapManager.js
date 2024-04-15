@@ -474,7 +474,7 @@ class MapManager {
   
   // async fetchLightingData() {
   //   // Anropa LvWS API för att hämta belysningsdata
-  //   const response = await fetch('https://openstreetws.stockholm.se/LvWS-4.0/Lv.svc/json/CountFeaturesForFeatureType?apikey=4c710633-77ad-427d-a305-41409a2f0370&featureTypename=Belysningsmontage');
+  //   const response = await fetch('');
   //   const data = await response.json();
   //   return data;
   // }
