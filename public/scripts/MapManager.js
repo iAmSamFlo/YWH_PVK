@@ -156,12 +156,12 @@ class MapManager {
             this.locationMenu.appendChild(routeDiv);
 
             // Add click event listeners to route divs
-            //TODO: funkar ej
             routeDiv.addEventListener('click', () => {
               this.selectRoute(i);
             });
 
             // Add click event listeners to DirectionsRenderer objects
+            //TODO: funkar ej
             google.maps.event.addListener(directionsRenderer, 'click', () => {
               this.selectRoute(i);
             });
