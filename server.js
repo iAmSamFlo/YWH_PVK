@@ -53,20 +53,20 @@ app.listen(port, () => {
 // DATABAS KOD !!!!!
 
 const connectorPool = require('./connect.js');
-let pool = createPool();
+let pool;
 
-// app.use(async (req, res, next) => {
-//     if (pool) {
-//       return next();
-//     }
-//     try {
-//       pool = await createPoolAndEnsureSchema();
-//       next();
-//     } catch (err) {
-//       logger.error(err);
-//       return next(err);
-//     }
-//   });
+app.use(async (req, res, next) => {
+    if (pool) {
+      return next();
+    }
+    try {
+      pool = await createPoolAndEnsureSchema();
+      next();
+    } catch (err) {
+      logger.error(err);
+      return next(err);
+    }
+  });
 
   // Initialize Knex, a Node.js SQL query builder library with built-in connection pooling.
 const createPool = async () => {
@@ -131,6 +131,16 @@ const createPool = async () => {
       throw 'One of INSTANCE_HOST or INSTANCE_UNIX_SOCKET` is required.';
     }
 };
+
+const createPoolAndEnsureSchema = async () =>
+  await createPool()
+    .then(async pool => {
+      return pool;
+    })
+    .catch(err => {
+      logger.error(err);
+      throw err;
+    });
 
 const getVal = async pool => {
     return await pool
