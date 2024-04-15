@@ -142,10 +142,21 @@ const createPoolAndEnsureSchema = async () =>
       throw err;
     });
 
+    
 const getVal = async pool => {
     return await pool
       .select('*')
       .from('users');
   };
+
+app.get('/get-database', async (req, res) => {
+    try {
+        // Logic to fetch the secret
+        res.send(getVal);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).send('Error fetching data');
+    }
+});
 
 console.log(getVal);
