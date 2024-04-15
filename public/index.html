@@ -1,0 +1,95 @@
+<html>
+  <head>
+    <title>Simple Map</title>
+    <script type="module" src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+    <link rel="stylesheet" type="text/css" href="./styles/style.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/header.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/menu.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/radiusSlider.css" />
+    
+    <script src="./scripts/Menu.js"></script>
+    <script src="./scripts/Index.js"> </script>
+    <script type="text/JavaScript" src="./scripts/slideinmenu.js"></script>
+    
+    
+  </head>
+  <body>
+    <header>
+      <img src="icons/YWHLogo.png" id="YWHLogo">
+      <img src="icons/User.png" id="UserIcon" onclick="OpenSlideMenu()">
+    </header>
+    <div id="SlideinMenu" class="SideMenu">
+      <img src="icons/User.png">
+      <span>
+        <span>
+          First-Name Last-Name
+        </span>  
+        <span>
+        example@gmail.com
+        </span>
+      </span>
+    </div>
+    <div id= "PopUpMenu" class="PopUpMenu">
+      <a id="RollUpButton" onclick="menu.MenuMove()"></a>
+      <input id="InputField" class="controls" type ="text" placeholder="Search Box">
+      
+      <div id="LocationMenu" class="menuDivs nonVisible">
+        <div class="btnDivs">
+          <button id= "StartBtn" class="MenuButtons"><label id="ButtonText">Begin Journey</label></button>
+          <button id= "ReviewBtn" class="MenuButtons"><label id="ButtonText">REVIEW</label></button>
+        </div>
+      </div>
+
+      <div id="NoLocationMenu" class="menuDivs showLocationMenu">
+        <div class="btnDivs">
+          <button id="ReviewSpot" class="MenuButtons"><label id="ButtonText">REVIEW MY SPOT</label></button>
+        </div>
+      </div>
+
+      <div id="RadiusSliderMenu" class="menuDivs nonVisible">
+        <div id="radiusSlider" class="slider-container">
+          <div class="text-container">
+            <div class="radiusSliderText">Radius</div>
+          </div>
+          <input type="range" min="1" max="6" value="1" class="slider" id="RadiusSliderInput">
+          <div id="sliderValueContainer" class="slider-value">
+              <span id="sliderValue">5 m</span>
+          </div>
+        </div>
+        <div class="btnDivs">
+          <button id= "ExitBtn" class="MenuButtons"><label id="ButtonText">EXIT</label></button>
+          <button id= "NextBtn" class="MenuButtons"><label id="ButtonText">NEXT</label></button>
+        </div>
+      </div>
+      <!-- Elemnt för pinna på kartan?-->
+    </div>
+
+    <div id="map"></div>
+    <!-- prettier-ignore -->
+    <script>
+      const API_KEY = "AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg"; //test api
+      (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});
+      var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));
+      e.set("libraries", [...r] + ",drawing,places");
+      for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);
+      e.set("callback",c+".maps."+q);
+      a.src=`https://maps.${c}apis.com/maps/api/js?`+e;
+      console.log(a.src);
+      d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));
+      a.nonce=m.querySelector("script[nonce]")?.nonce||"";
+      m.head.append(a)}));
+      d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+      ({key: API_KEY, v: "weekly"});
+    </script>
+    <script>
+      const menu = new Menu();
+    </script>
+    <script type="text/JavaScript" src="./scripts/MapManager.js"></script>
+    <script>
+      const index = new Index();
+    </script>
+    
+
+  </body>
+</html>
