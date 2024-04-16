@@ -34,16 +34,20 @@ const connectWithConnector = async config => {
   // keep secrets safe.
   const connector = new Connector();
   const clientOpts = await connector.getOptions({
-    instanceConnectionName: process.env.INSTANCE_CONNECTION_NAME,
+    //instanceConnectionName: process.env.INSTANCE_CONNECTION_NAME,
+    instanceConnectionName: "stockholm-safety-map:europe-west1:ywhinstancepostgressql1",
     ipType: getIpType(),
   });
   const dbConfig = {
     client: 'pg',
     connection: {
       ...clientOpts,
-      user: process.env.DB_USER, // e.g. 'my-user'
-      password: process.env.DB_PASS, // e.g. 'my-user-password'
-      database: process.env.DB_NAME, // e.g. 'my-database'
+      //user: process.env.DB_USER, // e.g. 'my-user'
+      user: "postgres",
+      //password: process.env.DB_PASS, // e.g. 'my-user-password'
+      password: "FindTheWayHome1337", // e.g. 'my-user-password'
+      //database: process.env.DB_NAME, // e.g. 'my-database'
+      database: "db-ywh", // e.g. 'my-database'
     },
     // ... Specify additional properties here.
     ...config,
