@@ -62,9 +62,9 @@ const clientOpts = connector.getOptions({
 });
 const pool = new Pool({
   ...clientOpts,
-  user: 'postgres',
-  password: 'FindTheWayHome1337',
-  database: 'db-ywh',
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
   max: 5,
 });
 const {rows} = pool.query('SELECT NOW()');
