@@ -51,20 +51,17 @@ app.listen(port, () => {
 });
 
 // DATABAS KOD !!!!!
-const pg = require('pg');
 const { Pool } = require('pg');
 const dotenv = require('dotenv');
 dotenv.config();
 
 const dbConfig = {
-    max: 5,
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    database: process.env.DB_NAME,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS
+    user: process.env.DB_USER, // e.g. 'my-db-user'
+    password: process.env.DB_PASS, // e.g. 'my-db-password'
+    database: process.env.DB_NAME, // e.g. 'my-database'
+    socketPath: process.env.INSTANCE_UNIX_SOCKET, // e.g. '/cloudsql/project:region:instance'
+    // Specify additional properties here.
+    ...config,
 };
 const pool = new Pool(dbConfig);
 
