@@ -63,12 +63,22 @@ const pool = new Pool({
   max: 5,
 });
 
-pool.query('SELECT * FROM users', [1], (err, res) => {
+const i = pool.query('SELECT * FROM users', [1], (err, res) => {
     if (err) {
       console.error(err);
       return;
     }
     console.log(res.rows[0]);
   });
+
+app.get('/get-database', async (req, res) => {
+    try {
+        // Logic to fetch the secret
+        res.send(i);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).send('Error fetching data');
+    }
+});
 
 pool.end();
