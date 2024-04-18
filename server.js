@@ -52,23 +52,22 @@ app.listen(port, () => {
 
 // DATABAS KOD !!!!!
 const pg = require('pg');
-const {Connector} = require('@google-cloud/cloud-sql-connector');
 const {Pool} = pg;
 
-const connector = new Connector();
-const clientOpts = connector.getOptions({
-  instanceConnectionName: 'stockholm-safety-map:europe-west1:ywhinstancepostgressql1',
-  ipType: 'PUBLIC',
-});
 const pool = new Pool({
-  ...clientOpts,
   user: process.env.DB_USER,
-  password: process.env.DB_PASS,
+  host: '/gcloudsql/stockholm-safety-map:europe-west1:ywhinstancepostgressql1',
   database: process.env.DB_NAME,
+  password: process.env.DB_PASS,
   max: 5,
 });
-const {rows} = pool.query('SELECT NOW()');
-console.table(rows); // prints returned time value from server
+
+pool.query('SELECT * FROM users', [1], (err, res) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    console.log(res.rows[0]);
+  });
 
 pool.end();
-connector.close();
