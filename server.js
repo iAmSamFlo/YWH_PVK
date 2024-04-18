@@ -51,30 +51,33 @@ app.listen(port, () => {
 });
 
 // DATABAS KOD !!!!!
-const { Pool } = require('pg');
-const dotenv = require('dotenv');
-dotenv.config();
+const Knex = require('knex');
 
-const dbConfig = {
-    user: process.env.DB_USER, // e.g. 'my-db-user'
-    password: process.env.DB_PASS, // e.g. 'my-db-password'
-    database: process.env.DB_NAME, // e.g. 'my-database'
-    socketPath: process.env.INSTANCE_UNIX_SOCKET, // e.g. '/cloudsql/project:region:instance'
-    // Specify additional properties here.
-    ...config,
-};
-const pool = new Pool(dbConfig);
+// createUnixSocketPool initializes a Unix socket connection pool for
+// a Cloud SQL instance of Postgres.
+const createUnixSocketPool = async config => {
+    // Note: Saving credentials in environment variables is convenient, but not
+    // secure - consider a more secure solution such as
+    // Cloud Secret Manager (https://cloud.google.com/secret-manager) to help
+    // keep secrets safe.
+    return Knex({
+      client: 'pg',
+      connection: {
+        user: process.env.DB_USER, // e.g. 'my-user'
+        password: process.env.DB_PASS, // e.g. 'my-user-password'
+        database: process.env.DB_NAME, // e.g. 'my-database'
+        host: process.env.INSTANCE_UNIX_SOCKET, // e.g. '/cloudsql/project:region:instance'
+      },
+      // ... Specify additional properties here.
+      ...config,
+    });
+  };
 
 app.get('/get-database', async (req, res) => {
     try {
-        const client = await pool.connect();
+        const re = createUnixSocketPool.select('*').from('users');
 
-        const testQuery = "SELECT * FROM users";
-        const testResult = await client.query(testQuery);
-        const tabCount = testResult.rows.length;
-        client.release();
-
-        res.send(tabCount);
+        res.send(re);
     } catch (error) {
         console.error('Error:', error);
         res.status(500).send('Internal Server Error');
