@@ -74,7 +74,7 @@ const i = pool.query('SELECT * FROM users', [1], (err, res) => {
 app.get('/get-database', async (req, res) => {
     try {
         // Logic to fetch the secret
-        res.send(i);
+        res.send(pool);
     } catch (error) {
         console.error('Error fetching data:', error);
         res.status(500).send('Error fetching data');
