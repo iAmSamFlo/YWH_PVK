@@ -52,16 +52,18 @@ app.listen(port, () => {
 
 // DATABAS KOD !!!!!
 const pg = require('pg');
+const createUnixSocketPool  = require('./connect.js');
 const {Pool} = pg;
 
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: '/cloudsql/stockholm-safety-map:europe-west1:ywhinstancepostgressql1',
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASS,
-  port: process.env.DB_PORT,
-  max: 5,
-});
+let pool = createUnixSocketPool(config);
+// const pool = new Pool({
+//   user: process.env.DB_USER,
+//   host: '/cloudsql/stockholm-safety-map:europe-west1:ywhinstancepostgressql1',
+//   database: process.env.DB_NAME,
+//   password: process.env.DB_PASS,
+//   port: process.env.DB_PORT,
+//   max: 5,
+// });
 
 const i = pool.query('SELECT * FROM users', [1], (err, res) => {
     if (err) {
