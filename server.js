@@ -52,37 +52,34 @@ app.listen(port, () => {
 
 // DATABAS KOD !!!!!
 const pg = require('pg');
-const createUnixSocketPool  = require('./connect.js');
-const {Pool} = pg;
+const { Pool } = require('pg');
+const dotenv = require('dotenv');
+dotenv.config();
 
-let pool = createUnixSocketPool(config);
-// const pool = new Pool({
-//   user: process.env.DB_USER,
-//   host: '/cloudsql/stockholm-safety-map:europe-west1:ywhinstancepostgressql1',
-//   database: process.env.DB_NAME,
-//   password: process.env.DB_PASS,
-//   port: process.env.DB_PORT,
-//   max: 5,
-// });
-
-const i = pool.query('SELECT * FROM users', [1], (err, res) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    console.log(res.rows[0]);
-  });
+const dbConfig = {
+    max: 5,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 2000,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS
+};
+const pool = new Pool(dbConfig);
 
 app.get('/get-database', async (req, res) => {
     try {
-        const ensureSchema = async pool => {
-            return await pool.schema.hasTable('users');
-        };
-        res.send(ensureSchema);
+        const client = await pool.connect();
+
+        const testQuery = "SELECT * FROM users";
+        const testResult = await client.query(testQuery);
+        const tabCount = testResult.rows.length;
+        client.release();
+
+        res.send(tabCount);
     } catch (error) {
-        console.error('Error fetching data:', error);
-        res.status(500).send('Error fetching data');
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
     }
 });
-
-pool.end();
