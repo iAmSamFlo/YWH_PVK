@@ -56,9 +56,10 @@ const {Pool} = pg;
 
 const pool = new Pool({
   user: process.env.DB_USER,
-  host: '/gcloudsql/stockholm-safety-map:europe-west1:ywhinstancepostgressql1',
+  host: '/cloudsql/stockholm-safety-map:europe-west1:ywhinstancepostgressql1',
   database: process.env.DB_NAME,
   password: process.env.DB_PASS,
+  port: process.env.DB_PORT,
   max: 5,
 });
 
