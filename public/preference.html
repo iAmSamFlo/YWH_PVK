@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preference Page</title>
+    <link rel="stylesheet" type="text/css" href="./styles/style.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/header.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/preference.css" />
+</head>
+<body>
+    <header>
+        <img src="icons/YWHLogo.png" id="YWHLogo">
+        <img src="icons/User.png" id="UserIcon" onclick="OpenSlideMenu()">
+    </header>
+    <div class="body-div">
+        <h1>Preferences</h1>
+        <div class="main-container">
+            <h2>Routes</h2>
+            <div class="child-container align-left">
+                <div class="container">
+                    <label class=" radio-text">Fastest
+                        <input type="radio" checked="checked" name="radio" value="0">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="container">
+                    <label class=" radio-text">Easy to remember
+                        <input type="radio" name="radio" value="1">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="child-container">
+                <button id="nextBtn" class="pref-buttons">
+                    <label class="btn-text" for="nextBtn">Next</label>
+                </button>
+                <button id="skipBtn" class="pref-buttons-inv">
+                    <label class="btn-text-inv" for="skipBtn">Skip</label>
+                </button>
+            </div>
+        </div>
+    </div>
+    <script type="text/JavaScript" src="./scripts/Preference.js"></script>
+</body>
+</html>
