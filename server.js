@@ -16,8 +16,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('public', { 'Content-Type': 'application/javascript' }));
 
 // The secret value is global for snappy reuse.
-let secret = process.env.GoogleMapsAPI;
-// let secret = "AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg";
+//let secret = process.env.GoogleMapsAPI;
+let secret = "AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg";
 
 app.get('/get-secret', async (req, res) => {
     try {
