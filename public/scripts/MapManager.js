@@ -66,28 +66,24 @@ class MapManager {
       } catch (error) {
           console.error('Error fetching secret:', error);
       }
-  }
+    }
   
     async initMap() {
       await this.setMapScript();
       const { Map } = await google.maps.importLibrary('maps');
       const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
-  
-  async initMap() {
-    const { Map } = await google.maps.importLibrary('maps');
-    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
-    const { DirectionsService } = await google.maps.importLibrary('routes');
-    const { DirectionsRenderer } = await google.maps.importLibrary('routes');
+      const { DirectionsService } = await google.maps.importLibrary('routes');
+      const { DirectionsRenderer } = await google.maps.importLibrary('routes');
 
-    this.directionsService = new DirectionsService();
-    this.directionsRenderer = new DirectionsRenderer();
+      this.directionsService = new DirectionsService();
+      this.directionsRenderer = new DirectionsRenderer();
 
 
-    // Define an array to hold all DirectionsRenderer instances
-    this.directionsRenderers = [];
+      // Define an array to hold all DirectionsRenderer instances
+      this.directionsRenderers = [];
     
-    const minZoom = 10;
-    this.map = new Map(document.getElementById('map'), {
+      const minZoom = 10;
+      this.map = new Map(document.getElementById('map'), {
       fullscreenControl: false,
       zoom: minZoom + 7,
       minZoom: minZoom,
