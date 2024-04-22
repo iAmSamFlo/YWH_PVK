@@ -109,19 +109,35 @@
   margin: 30px;
 }
 #InputField{
-  position: absolute;
-  width: 70%;
-  height: 35px;
-  top: 70px;
-  border-radius: 10px;
-  left: 15%;
   font-size: 100%;
   font-family: "Montserrat", sans-serif;
   font-weight: 500;
-  padding-left: 15px;
+  border-radius: 10px;
+
 }
 .hideInputField {
   display: none;
+}
+#ClearButton{
+  height: 17px;
+  border: white;
+  margin-left: 8px;
+  /* center icon */
+  position: relative;
+  top: 25%;
+
+}
+
+.SearchMenu{
+  top: 70px;
+  position: absolute;
+  width: 70%;
+  height: 35px;
+  left: 15%;
+  display: flex;
+  flex-direction: row;
+  padding-left: 15px;
+  justify-content: center;
 }
 
 #ButtonText {
