@@ -51,35 +51,35 @@ app.listen(port, () => {
 });
 
 // DATABAS KOD !!!!!
-const Knex = require('knex');
+// const Knex = require('knex');
 
-// createUnixSocketPool initializes a Unix socket connection pool for
-// a Cloud SQL instance of Postgres.
-const createUnixSocketPool = async config => {
-    // Note: Saving credentials in environment variables is convenient, but not
-    // secure - consider a more secure solution such as
-    // Cloud Secret Manager (https://cloud.google.com/secret-manager) to help
-    // keep secrets safe.
-    return Knex({
-      client: 'pg',
-      connection: {
-        user: process.env.DB_USER, // e.g. 'my-user'
-        password: process.env.DB_PASS, // e.g. 'my-user-password'
-        database: process.env.DB_NAME, // e.g. 'my-database'
-        host: process.env.INSTANCE_UNIX_SOCKET, // e.g. '/cloudsql/project:region:instance'
-      },
-      // ... Specify additional properties here.
-      ...config,
-    });
-  };
+// // createUnixSocketPool initializes a Unix socket connection pool for
+// // a Cloud SQL instance of Postgres.
+// const createUnixSocketPool = async config => {
+//     // Note: Saving credentials in environment variables is convenient, but not
+//     // secure - consider a more secure solution such as
+//     // Cloud Secret Manager (https://cloud.google.com/secret-manager) to help
+//     // keep secrets safe.
+//     return Knex({
+//       client: 'pg',
+//       connection: {
+//         user: process.env.DB_USER, // e.g. 'my-user'
+//         password: process.env.DB_PASS, // e.g. 'my-user-password'
+//         database: process.env.DB_NAME, // e.g. 'my-database'
+//         host: process.env.INSTANCE_UNIX_SOCKET, // e.g. '/cloudsql/project:region:instance'
+//       },
+//       // ... Specify additional properties here.
+//       ...config,
+//     });
+//   };
 
-app.get('/get-database', async (req, res) => {
-    try {
-        const re = createUnixSocketPool.select('*').from('users');
+// app.get('/get-database', async (req, res) => {
+//     try {
+//         const re = createUnixSocketPool.select('*').from('users');
 
-        res.send(re);
-    } catch (error) {
-        console.error('Error:', error);
-        res.status(500).send('Internal Server Error');
-    }
-});
+//         res.send(re);
+//     } catch (error) {
+//         console.error('Error:', error);
+//         res.status(500).send('Internal Server Error');
+//     }
+// });
