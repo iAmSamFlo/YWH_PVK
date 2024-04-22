@@ -1,4 +1,5 @@
 class MapManager {
+
     constructor() {
       this.secret = null;
 
@@ -17,6 +18,7 @@ class MapManager {
       this.inputField = document.getElementById('InputField');
       this.clearBtn = document.getElementById('ClearButton');
   
+      this.routetemplate = document.getElementById('RouteTemplate');
       this.locationMenu = document.getElementById('LocationMenu');
       this.noLocationMenu = document.getElementById('NoLocationMenu');
       this.radiusSliderMenu = document.getElementById('RadiusSliderMenu');
@@ -197,16 +199,17 @@ class MapManager {
             // Create a div to display route information
             const routeDiv = document.createElement('div');
             routeDiv.classList.add('route-info'); // TODO felicia måste skapa css klass
+            routeDiv.classList.add('Routeinfo')
             routeDiv.id = 'route'+i;
 
             // Set content for the route div
             routeDiv.innerHTML = `
-                <p>Duration: ${durationInMinutes} minutes</p>
-                <p>Distance: ${distanceInKilometers} km</p>
+                <span>Duration: ${durationInMinutes} minutes</span>
+                <span>Distance: ${distanceInKilometers} km</span>
             `;
             //TODO: lägg till en knapp som bekräftar rutt och tar bort resterande rutter, öppnar upp för ny navigationsvy?
             // Append the route div to a container element (e.x, a div with id "routeContainer")
-            this.locationMenu.appendChild(routeDiv);
+            this.routetemplate.appendChild(routeDiv);
 
             // Add click event listeners to route divs
             //TODO: funkar ej
@@ -224,10 +227,10 @@ class MapManager {
           if (minTurnsIndex !== -1) {
             console.log("Route with least turns:", minTurnsIndex);
             // Create a new <p> element
-            const newParagraph = document.createElement('p');
+            const newSpan = document.createElement('span');
             // Set text content for the new <p> element
-            newParagraph.textContent = 'Route with least turns:';
-            document.getElementById("route"+minTurnsIndex).appendChild(newParagraph);
+            newSpan.textContent = 'Route with least turns:';
+            document.getElementById("route"+minTurnsIndex).appendChild(newSpan);
           } else {
             console.error("No routes found or error occurred.");
           }
@@ -382,7 +385,10 @@ class MapManager {
         var start = await this.getCurrentLocation();
         var end = this.markerElement.position;
         this.calcRoute(start, end);
+        this.locationMenu.classList.add('nonVisible');
+        this.routetemplate.classList.remove('nonVisible');
         this.reviewState = true;
+
       } catch (error){
         console.error(error);
       } 
