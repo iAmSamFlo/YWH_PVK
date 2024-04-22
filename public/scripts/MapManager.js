@@ -13,8 +13,9 @@ class MapManager {
       this.reviewState = false;
       this.exitBtn = document.getElementById('ExitBtn');
       this.nextBtn = document.getElementById('NextBtn');
-      this.startBtn = document.getElementById('StartBtn');
+      this.beginJourneyBtn = document.getElementById('StartBtn');
       this.inputField = document.getElementById('InputField');
+      this.clearBtn = document.getElementById('ClearButton');
   
       this.locationMenu = document.getElementById('LocationMenu');
       this.noLocationMenu = document.getElementById('NoLocationMenu');
@@ -375,8 +376,9 @@ class MapManager {
       this.handleRadiusSlider();
     });
 
-    this.startBtn.addEventListener('click', async () => {
+    this.beginJourneyBtn.addEventListener('click', async () => {
       try{
+        this.hideSearch();
         var start = await this.getCurrentLocation();
         var end = this.markerElement.position;
         this.calcRoute(start, end);
@@ -460,7 +462,7 @@ class MapManager {
 
 
   setupRadiusSliderMenu() {
-    this.inputField.classList.add('hideInputField')
+    this.hideSearch();
     this.locationMenu.classList.add('nonVisible');
     this.noLocationMenu.classList.add('nonVisible');
 
@@ -471,9 +473,17 @@ class MapManager {
     this.deleteCircle();
     this.locationMenu.classList.remove('nonVisible');
     this.radiusSliderMenu.classList.add('nonVisible');
-    this.inputField.classList.remove('hideInputField');
+    this.showSearch();
   }
-  
+
+  hideSearch() {
+    this.inputField.classList.add('hideInputField');
+    this.clearBtn.classList.add('hideInputField');
+  }
+  showSearch() {
+    this.inputField.classList.remove('hideInputField');
+    this.clearBtn.classList.remove('hideInputField');
+  }
   
   deleteCircle() {
     if (this.circle) {
