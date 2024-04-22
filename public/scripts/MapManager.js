@@ -10,6 +10,7 @@ class MapManager {
       this.radius = null;
       this.directionsRenderer = null;
       this.directionsService = null; 
+      this.reviewState = false;
       this.exitBtn = document.getElementById('ExitBtn');
       this.nextBtn = document.getElementById('NextBtn');
       this.startBtn = document.getElementById('StartBtn');
@@ -22,6 +23,8 @@ class MapManager {
       this.reviewMyLocationBtn = document.getElementById('ReviewSpot');
       this.radiusSlider = document.getElementById('RadiusSliderInput');
       this.radiusSliderValue = document.getElementById('sliderValue');
+      this.clearButton = document.getElementById('ClearButton');
+      this.clearBcheck = false;
       
       
       this.initMap();
@@ -87,6 +90,7 @@ class MapManager {
       fullscreenControl: false,
       zoom: minZoom + 7,
       minZoom: minZoom,
+      zoomControl: false,
       center: { lat: 59.32944, lng: 18.06861 },
       restriction: {
         latLngBounds: {
@@ -258,6 +262,8 @@ class MapManager {
   // }
   
   async initSearch() {
+
+    this.inputField.value = "";
     const input = document.getElementById("InputField");
     const options = {
       bounds: this.map.restriction.latLngBounds,
@@ -317,9 +323,18 @@ class MapManager {
       // };
 
       //get the position and set a pin and pan to location 
+      
+        
+        this.reviewOrJourneyButtons();
         var pos = place.geometry.location;
         this.markerElement.position = pos;
         this.map.setCenter(pos);
+
+        if (this.clearBcheck == true) {
+          document.getElementById('autocomplete').value = '';
+          this.clearBcheck = false;
+        }
+
     });
   }
   
@@ -327,6 +342,7 @@ class MapManager {
   setupEventListeners() {
 
     this.reviewBtn.addEventListener('click', () => {
+      this.reviewState = true;
       this.review();
     });
 
@@ -335,12 +351,14 @@ class MapManager {
         var pos = await this.getCurrentLocation(); // Wait for the position to be obtained
         this.markerElement.position = pos;
         this.review();
+        this.reviewState = true;
       } catch (error) {
         console.error(error);
       }
     });
 
     this.exitBtn.addEventListener('click', () => {
+      this.reviewState = false;
       this.exitRadius();
     });
 
@@ -349,7 +367,8 @@ class MapManager {
     });
 
     google.maps.event.addListener(this.map, "click", (mapsMouseEvent) => { 
-      this.setTempPin(mapsMouseEvent);
+      //TODO else stäng menyn 
+      if (!this.reviewState) this.setTempPin(mapsMouseEvent);
     });
 
     this.radiusSlider.addEventListener('input', () => {
@@ -361,10 +380,16 @@ class MapManager {
         var start = await this.getCurrentLocation();
         var end = this.markerElement.position;
         this.calcRoute(start, end);
+        this.reviewState = true;
       } catch (error){
         console.error(error);
       } 
     })
+
+    this.clearButton.addEventListener('click', () => {
+      this.clearBcheck = true;
+      this.initSearch();
+    });
   }
   
   async setUpPanToBtn() {
@@ -428,8 +453,7 @@ class MapManager {
   }
   
   setTempPin(mapsMouseEvent){
-    this.locationMenu.classList.remove('nonVisible');
-    this.noLocationMenu.classList.add('nonVisible');
+    this.reviewOrJourneyButtons();
 
     this.markerElement.position = mapsMouseEvent.latLng;
   }
@@ -476,6 +500,11 @@ class MapManager {
     var pos =  this.markerElement.position;
     this.map.setCenter(pos);
     this.coord = pos;
+  }
+
+  reviewOrJourneyButtons(){
+    this.locationMenu.classList.remove('nonVisible');
+    this.noLocationMenu.classList.add('nonVisible');
   }
 
 
