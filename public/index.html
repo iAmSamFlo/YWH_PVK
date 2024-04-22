@@ -33,8 +33,12 @@
     </div>
     <div id= "PopUpMenu" class="PopUpMenu">
       <a id="RollUpButton" onclick="menu.MenuMove()"></a>
-      <input id="InputField" class="controls" type ="text" placeholder="Search for location">
-      
+      <div class = "SearchMenu">
+        <input id="InputField" class="controls" type="text" placeholder="Search for location">
+        <!-- <button id="ClearButton" class="clear-button">x</button> -->
+        <img src="icons/cross.png" id="ClearButton">
+      </div>
+
       <div id="LocationMenu" class="menuDivs nonVisible">
         <div class="btnDivs">
           <button id= "StartBtn" class="MenuButtons"><label id="ButtonText">Begin Journey</label></button>
