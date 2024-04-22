@@ -88,6 +88,7 @@ class MapManager {
       fullscreenControl: false,
       zoom: minZoom + 7,
       minZoom: minZoom,
+      zoomControl: false,
       center: { lat: 59.32944, lng: 18.06861 },
       restriction: {
         latLngBounds: {
