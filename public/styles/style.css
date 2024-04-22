@@ -26,14 +26,14 @@
 
 #PopUpMenu {
   background-color: #7c41FA;
-  height: 800;
+  height: 400;
   width: 100%;
   position: fixed;
-  bottom: -600;
+  bottom: -250px;
   z-index: 1;
   overflow-x: hidden;
   transition: 0.5s;
-  padding-top: 80px; 
+
   justify-content: center;
   align-items: center;
   border-radius: 20px 20px 0px 0px;
@@ -44,7 +44,7 @@
   width: 40vw;
   position: fixed;
   z-index: 6;
-  right: -500;
+  right: -500px;
   border-style: solid;
   border-radius: 0px 0px 0px 80px;
   border-width: 20px 0px 20px 20px;
@@ -76,16 +76,18 @@
   flex-direction: column;
 }
 .MenuButtons {
+  display: flex;
   height: 15vw;
   width: 40vw;
   background-color: white;
-  border-radius: 30px;
-  border-width: 15px;
+  border-radius: 10px;
+  border-width: 0px;
   border-color: white;
   border-style: solid;
   margin-left: 5%; /* Add some spacing between buttons */
   margin-right: 5%;
-  border-radius: 20px 20px 20px 20px;
+  align-items: center;
+  justify-content: center;
 }
 .MenuButtons:active{
   background-color: #c2c2c2;
@@ -98,22 +100,22 @@
 #RollUpButton {
   background-color: white;
   width: 30%;
-  padding: 8px; 
+  padding: 5px; 
   border-radius: 15px;
   position: absolute; /* Position relative to the parent */
-  top: 10px; /* Position at the top of the menu */
-  left: 50%; /* Center horizontally */
+  top: 0px; /* Position at the top of the menu */
+  left: 42%; /* Center horizontally */
   transform: translateX(-50%); /* Center horizontally */
-  margin: 15px;
+  margin: 30px;
 }
 #InputField{
   position: absolute;
   width: 70%;
-  height: 70px;
-  border-radius: 20px;
-  top: 115px;
+  height: 35px;
+  top: 70px;
+  border-radius: 10px;
   left: 15%;
-  font-size: 200%;
+  font-size: 100%;
   font-family: "Montserrat", sans-serif;
   font-weight: 500;
   padding-left: 15px;
@@ -124,31 +126,35 @@
 
 #ButtonText {
   color: #7c41FA;
-  font-size: 300%;
+  font-size: 150%;
   font-family: "Montserrat", sans-serif;
-  font-weight: 700;
-  align-self: center;
+  font-weight: 650;
+  text-align: center;
+  
 }
 
 .myLocationButton {
   position: relative;
+  top: 40%;
   padding: 10px;
-  height: 80px;
-  width: 80px;
-  background-color: white;
+  height: 40px;
+  width: 40px;
+  background-color:#dccbff;
   border-radius: 50%;
   border-width: 0px;
   border-color: black;
   left: 10px;
+  align-items: center; /* Center both horizontally and vertically */
+  text-align: center;
 }
 .myLocationButton:active {
-  background-color: rgb(223, 223, 223);
+  background-color: #7c41FA;
 }
 .myLocationIcon {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-55%, -50%);
-  width: 70px;
-  height: 70px;
+  width: 35px;
+  height: 35px;
 }

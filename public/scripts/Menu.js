@@ -12,9 +12,9 @@ class Menu {
     MenuMove() {
         const menu = document.getElementById("PopUpMenu");
         if (this.isUp) {
-            menu.style.bottom = "0"
+            menu.style.bottom = "-250px"
         } else {
-            menu.style.bottom = "-600";
+            menu.style.bottom = "0px";
         }
         this.isUp = !this.isUp;
     }

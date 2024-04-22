@@ -1,6 +1,7 @@
 <html>
   <head>
     <title>Simple Map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <script type="module" src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
     <link rel="stylesheet" type="text/css" href="./styles/style.css" />
@@ -32,18 +33,18 @@
     </div>
     <div id= "PopUpMenu" class="PopUpMenu">
       <a id="RollUpButton" onclick="menu.MenuMove()"></a>
-      <input id="InputField" class="controls" type ="text" placeholder="Search Box">
+      <input id="InputField" class="controls" type ="text" placeholder="Search for location">
       
       <div id="LocationMenu" class="menuDivs nonVisible">
         <div class="btnDivs">
-          <button id= "StartBtn" class="MenuButtons"><label id="ButtonText">START</label></button>
+          <button id= "StartBtn" class="MenuButtons"><label id="ButtonText">Begin Journey</label></button>
           <button id= "ReviewBtn" class="MenuButtons"><label id="ButtonText">REVIEW</label></button>
         </div>
       </div>
 
       <div id="NoLocationMenu" class="menuDivs showLocationMenu">
         <div class="btnDivs">
-          <button id="ReviewSpot" class="MenuButtons"><label id="ButtonText">REVIEW MY SPOT</label></button>
+          <button id="ReviewSpot" class="MenuButtons"><label id="ButtonText">REVIEW MY LOCATION</label></button>
         </div>
       </div>
 
@@ -64,7 +65,7 @@
       </div>
       <!-- Elemnt för pinna på kartan?-->
     </div>
-    
+
     <div id="map"></div>
     
     <script>
@@ -74,5 +75,7 @@
     <script>
       const index = new Index();
     </script>
+    
+
   </body>
 </html>
