@@ -1,47 +1,98 @@
 class MapManager {
-  constructor() {
-    this.map = null;
-    this.infoWindow = null;
-    this.markerElement = null;
-    this.coord = null;
-    this.circle = null;
-    this.radius = null;
-    this.directionsRenderer = null;
-    this.directionsService = null;     
-    this.exitBtn = document.getElementById('ExitBtn');
-    this.nextBtn = document.getElementById('NextBtn');
-    this.startBtn = document.getElementById('StartBtn');
-    this.inputField = document.getElementById('InputField');
 
-    this.routetemplate = document.getElementById('RouteTemplate');
-    this.locationMenu = document.getElementById('LocationMenu');
-    this.noLocationMenu = document.getElementById('NoLocationMenu');
-    this.radiusSliderMenu = document.getElementById('RadiusSliderMenu');
-    this.reviewBtn = document.getElementById('ReviewBtn');
-    this.reviewMyLocationBtn = document.getElementById('ReviewSpot');
-    this.radiusSlider = document.getElementById('RadiusSliderInput');
-    this.radiusSliderValue = document.getElementById('sliderValue');
-    this.initMap();
-  }
+    constructor() {
+      this.secret = null;
+
+      this.map = null;
+      this.infoWindow = null;
+      this.markerElement = null;
+      this.coord = null;
+      this.circle = null;
+      this.radius = null;
+      this.directionsRenderer = null;
+      this.directionsService = null; 
+      this.reviewState = false;
+      this.exitBtn = document.getElementById('ExitBtn');
+      this.nextBtn = document.getElementById('NextBtn');
+      this.startBtn = document.getElementById('StartBtn');
+      this.inputField = document.getElementById('InputField');
   
-  async initMap() {
-    const { Map } = await google.maps.importLibrary('maps');
-    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
-    const { DirectionsService } = await google.maps.importLibrary('routes');
-    const { DirectionsRenderer } = await google.maps.importLibrary('routes');
+      this.routetemplate = document.getElementById('RouteTemplate');
+      this.locationMenu = document.getElementById('LocationMenu');
+      this.noLocationMenu = document.getElementById('NoLocationMenu');
+      this.radiusSliderMenu = document.getElementById('RadiusSliderMenu');
+      this.reviewBtn = document.getElementById('ReviewBtn');
+      this.reviewMyLocationBtn = document.getElementById('ReviewSpot');
+      this.radiusSlider = document.getElementById('RadiusSliderInput');
+      this.radiusSliderValue = document.getElementById('sliderValue');
+      this.clearButton = document.getElementById('ClearButton');
+      this.clearBcheck = false;
+      
+      
+      this.initMap();
+      this.getDatabase();
+    }
 
-    this.directionsService = new DirectionsService();
-    this.directionsRenderer = new DirectionsRenderer();
+    async setMapScript() {
+      await this.getSecret();
+      const API_KEY = this.secret;
+      (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});
+      var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));
+      e.set("libraries", [...r] + ",drawing,places");
+      for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);
+      e.set("callback",c+".maps."+q);
+      a.src=`https://maps.${c}apis.com/maps/api/js?`+e;
+      console.log(a.src);
+      d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));
+      a.nonce=m.querySelector("script[nonce]")?.nonce||"";
+      m.head.append(a)}));
+      d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+      ({key: API_KEY, v: "weekly"});
+    }
+
+    async getSecret() {
+      try {
+          const response = await fetch('/get-secret');
+          const recived = await response.text();
+          this.secret = recived;
+          // console.log('Key recived:',this.secret);
+          // Now you can use the secret in your client-side code
+      } catch (error) {
+          console.error('Error fetching secret:', error);
+      }
+    }
+
+    async getDatabase() {
+      try {
+          const response = await fetch('/get-database');
+          const recived = await response.text();
+          console.log('Data recived:', recived);
+          // Now you can use the secret in your client-side code
+      } catch (error) {
+          console.error('Error fetching secret:', error);
+      }
+    }
+  
+    async initMap() {
+      await this.setMapScript();
+      const { Map } = await google.maps.importLibrary('maps');
+      const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+      const { DirectionsService } = await google.maps.importLibrary('routes');
+      const { DirectionsRenderer } = await google.maps.importLibrary('routes');
+
+      this.directionsService = new DirectionsService();
+      this.directionsRenderer = new DirectionsRenderer();
 
 
-    // Define an array to hold all DirectionsRenderer instances
-    this.directionsRenderers = [];
+      // Define an array to hold all DirectionsRenderer instances
+      this.directionsRenderers = [];
     
-    const minZoom = 10;
-    this.map = new Map(document.getElementById('map'), {
+      const minZoom = 10;
+      this.map = new Map(document.getElementById('map'), {
       fullscreenControl: false,
       zoom: minZoom + 7,
       minZoom: minZoom,
+      zoomControl: false,
       center: { lat: 59.32944, lng: 18.06861 },
       restriction: {
         latLngBounds: {
@@ -214,6 +265,8 @@ class MapManager {
   // }
   
   async initSearch() {
+
+    this.inputField.value = "";
     const input = document.getElementById("InputField");
     const options = {
       bounds: this.map.restriction.latLngBounds,
@@ -273,9 +326,18 @@ class MapManager {
       // };
 
       //get the position and set a pin and pan to location 
+      
+        
+        this.reviewOrJourneyButtons();
         var pos = place.geometry.location;
         this.markerElement.position = pos;
         this.map.setCenter(pos);
+
+        if (this.clearBcheck == true) {
+          document.getElementById('autocomplete').value = '';
+          this.clearBcheck = false;
+        }
+
     });
   }
   
@@ -283,6 +345,7 @@ class MapManager {
   setupEventListeners() {
 
     this.reviewBtn.addEventListener('click', () => {
+      this.reviewState = true;
       this.review();
     });
 
@@ -291,12 +354,14 @@ class MapManager {
         var pos = await this.getCurrentLocation(); // Wait for the position to be obtained
         this.markerElement.position = pos;
         this.review();
+        this.reviewState = true;
       } catch (error) {
         console.error(error);
       }
     });
 
     this.exitBtn.addEventListener('click', () => {
+      this.reviewState = false;
       this.exitRadius();
     });
 
@@ -305,7 +370,8 @@ class MapManager {
     });
 
     google.maps.event.addListener(this.map, "click", (mapsMouseEvent) => { 
-      this.setTempPin(mapsMouseEvent);
+      //TODO else stäng menyn 
+      if (!this.reviewState) this.setTempPin(mapsMouseEvent);
     });
 
     this.radiusSlider.addEventListener('input', () => {
@@ -319,10 +385,17 @@ class MapManager {
         this.calcRoute(start, end);
         this.locationMenu.classList.add('nonVisible');
         this.routetemplate.classList.remove('nonVisible');
+        this.reviewState = true;
+
       } catch (error){
         console.error(error);
       } 
     })
+
+    this.clearButton.addEventListener('click', () => {
+      this.clearBcheck = true;
+      this.initSearch();
+    });
   }
   
   async setUpPanToBtn() {
@@ -386,8 +459,7 @@ class MapManager {
   }
   
   setTempPin(mapsMouseEvent){
-    this.locationMenu.classList.remove('nonVisible');
-    this.noLocationMenu.classList.add('nonVisible');
+    this.reviewOrJourneyButtons();
 
     this.markerElement.position = mapsMouseEvent.latLng;
   }
@@ -434,6 +506,11 @@ class MapManager {
     var pos =  this.markerElement.position;
     this.map.setCenter(pos);
     this.coord = pos;
+  }
+
+  reviewOrJourneyButtons(){
+    this.locationMenu.classList.remove('nonVisible');
+    this.noLocationMenu.classList.add('nonVisible');
   }
 
 
