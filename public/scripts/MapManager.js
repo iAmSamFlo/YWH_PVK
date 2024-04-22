@@ -10,6 +10,7 @@ class MapManager {
       this.radius = null;
       this.directionsRenderer = null;
       this.directionsService = null; 
+      this.reviewState = false;
       this.exitBtn = document.getElementById('ExitBtn');
       this.nextBtn = document.getElementById('NextBtn');
       this.startBtn = document.getElementById('StartBtn');
@@ -327,6 +328,7 @@ class MapManager {
   setupEventListeners() {
 
     this.reviewBtn.addEventListener('click', () => {
+      this.reviewState = true;
       this.review();
     });
 
@@ -335,12 +337,14 @@ class MapManager {
         var pos = await this.getCurrentLocation(); // Wait for the position to be obtained
         this.markerElement.position = pos;
         this.review();
+        this.reviewState = true;
       } catch (error) {
         console.error(error);
       }
     });
 
     this.exitBtn.addEventListener('click', () => {
+      this.reviewState = false;
       this.exitRadius();
     });
 
@@ -349,7 +353,8 @@ class MapManager {
     });
 
     google.maps.event.addListener(this.map, "click", (mapsMouseEvent) => { 
-      this.setTempPin(mapsMouseEvent);
+      //TODO else stäng menyn 
+      if (!this.reviewState) this.setTempPin(mapsMouseEvent);
     });
 
     this.radiusSlider.addEventListener('input', () => {
@@ -361,6 +366,7 @@ class MapManager {
         var start = await this.getCurrentLocation();
         var end = this.markerElement.position;
         this.calcRoute(start, end);
+        this.reviewState = true;
       } catch (error){
         console.error(error);
       } 
