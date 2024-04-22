@@ -22,6 +22,8 @@ class MapManager {
       this.reviewMyLocationBtn = document.getElementById('ReviewSpot');
       this.radiusSlider = document.getElementById('RadiusSliderInput');
       this.radiusSliderValue = document.getElementById('sliderValue');
+      this.clearButton = document.getElementById('ClearButton');
+      this.clearBcheck = false;
       
       
       this.initMap();
@@ -258,6 +260,8 @@ class MapManager {
   // }
   
   async initSearch() {
+
+    this.inputField.value = "";
     const input = document.getElementById("InputField");
     const options = {
       bounds: this.map.restriction.latLngBounds,
@@ -324,6 +328,11 @@ class MapManager {
         this.markerElement.position = pos;
         this.map.setCenter(pos);
 
+        if (this.clearBcheck == true) {
+          document.getElementById('autocomplete').value = '';
+          this.clearBcheck = false;
+        }
+
     });
   }
   
@@ -369,6 +378,11 @@ class MapManager {
         console.error(error);
       } 
     })
+
+    this.clearButton.addEventListener('click', () => {
+      this.clearBcheck = true;
+      this.initSearch();
+    });
   }
   
   async setUpPanToBtn() {
