@@ -318,9 +318,13 @@ class MapManager {
       // };
 
       //get the position and set a pin and pan to location 
+      
+        
+        this.reviewOrJourneyButtons();
         var pos = place.geometry.location;
         this.markerElement.position = pos;
         this.map.setCenter(pos);
+
     });
   }
   
@@ -434,8 +438,7 @@ class MapManager {
   }
   
   setTempPin(mapsMouseEvent){
-    this.locationMenu.classList.remove('nonVisible');
-    this.noLocationMenu.classList.add('nonVisible');
+    this.reviewOrJourneyButtons();
 
     this.markerElement.position = mapsMouseEvent.latLng;
   }
@@ -482,6 +485,11 @@ class MapManager {
     var pos =  this.markerElement.position;
     this.map.setCenter(pos);
     this.coord = pos;
+  }
+
+  reviewOrJourneyButtons(){
+    this.locationMenu.classList.remove('nonVisible');
+    this.noLocationMenu.classList.add('nonVisible');
   }
 
 
