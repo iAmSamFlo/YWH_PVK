@@ -17,6 +17,7 @@ class MapManager {
       this.beginJourneyBtn = document.getElementById('StartBtn');
       this.inputField = document.getElementById('InputField');
       this.clearBtn = document.getElementById('ClearButton');
+      this.cancelbtn = document.getElementById('CancelBtn')
   
       this.routetemplate = document.getElementById('RouteTemplate');
       this.locationMenu = document.getElementById('LocationMenu');
@@ -388,6 +389,23 @@ class MapManager {
         this.locationMenu.classList.add('nonVisible');
         this.routetemplate.classList.remove('nonVisible');
         this.reviewState = true;
+
+      } catch (error){
+        console.error(error);
+      } 
+    })
+
+    this.cancelbtn.addEventListener('click', async () => {
+      try{
+        this.showSearch();
+        this.locationMenu.classList.remove('nonVisible');
+        this.routetemplate.classList.add('nonVisible');
+        this.reviewState = false;
+        for (let i = 0; i < this.directionsRenderers.length; i++) {
+          const renderer = this.directionsRenderers[i];
+          renderer.setMap(null); // Remove the renderer from the map
+        }
+        
 
       } catch (error){
         console.error(error);
