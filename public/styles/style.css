@@ -87,7 +87,7 @@
   right: 0;
 }
 
-a {
+.SideMenuBtn {
   width: 160px;
   font-family: "Montserrat", sans-serif;
   font-size: 20px;
@@ -212,7 +212,7 @@ a {
 
 .Routeinfo {
   padding-left: 15%;
-  padding-top: 5%;
+  padding-top: 1%;
   display:flex;
   flex-direction: column;
   width: 100%;
@@ -220,12 +220,38 @@ a {
   font-family: "Montserrat", sans-serif;
   font-weight: 500;
   color: #FFFFFF;
-  
+}
+
+.chooseroute{
+  display: flex;
+  flex-direction: column;
+  width: 160px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  color: #FFFFFF;
+  background-color: #7c41FA;
+  text-decoration: none;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.activeroute{
+  display: flex;
+  flex-direction: column;
+  width: 160px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #a377fb;
 }
 
 #Routescontainer{
-  padding-top: 23%;
+  padding-top: 20%;
 }
+
 
 #CancelBtn{
   position: absolute;
