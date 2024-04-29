@@ -202,13 +202,14 @@ class MapManager {
             const routeDiv = document.createElement('div');
             routeDiv.classList.add('route-info'); // TODO felicia måste skapa css klass
             routeDiv.classList.add('Routeinfo')
+            routeDiv.classList.add('diffRoutes')
             routeDiv.id = 'route'+i;
 
             // Set content for the route div
             routeDiv.innerHTML = `
-              <div class = "chooseroute">
-                <a>Duration: ${durationInMinutes} minutes</a>
-                <a>Distance: ${distanceInKilometers} km</a>
+                <div class = "chooseroute">
+                  <a>Duration: ${durationInMinutes} minutes</a>
+                  <a>Distance: ${distanceInKilometers} km</a>
               </div>
             `;
             //TODO: lägg till en knapp som bekräftar rutt och tar bort resterande rutter, öppnar upp för ny navigationsvy?
@@ -233,7 +234,7 @@ class MapManager {
             // Create a new <p> element
             const newSpan = document.createElement('span');
             // Set text content for the new <p> element
-            newSpan.textContent = 'Route with least turns:';
+            newSpan.textContent = 'Least turns';
             document.getElementById("route"+minTurnsIndex).appendChild(newSpan);
           } else {
             console.error("No routes found or error occurred.");
