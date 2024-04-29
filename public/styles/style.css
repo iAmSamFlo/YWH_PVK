@@ -40,20 +40,18 @@
 }
 .SideMenu{
   background-color:#7c41FA;
-  height: 30vh;
-  width: 40vw;
+  height: 60vh;
+  width: 60vw;
   position: fixed;
   z-index: 6;
   right: -500px;
-  border-style: solid;
-  border-radius: 0px 0px 0px 80px;
-  border-width: 20px 0px 20px 20px;
-  border-color:rgba(0,0,0,0.5);
+  border-radius: 0px 0px 0px 10px;
   transition: right 0.5s;
   
 }
 .SideMenu > img{
-  width: 8vw;
+  padding: 7px;
+  width: 10vw;
 }
 
 .SideMenu > span {
@@ -62,7 +60,44 @@
   width: 75%;
   float:right;
   padding-top: 7px;
+  font-family: "Montserrat", sans-serif;
+  color:#FFFFFF;
+  font-size: 15px;
 }
+
+#SlideMenuButtonsContainer{
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.ButtonCon {
+  height: 59px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #a377fb;
+  padding-right: 5px;
+  border-radius: 5px;
+  color: #FFFFFF;
+  margin: 10px;
+}
+
+.Arrow{
+  right: 0;
+}
+
+a {
+  width: 160px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 20px;
+  color: #FFFFFF;
+  text-decoration: none;
+  background-color: #a377fb;
+  padding: 5px;
+  border-radius: 5px;
+}
+
 .btnDivs {
     display: flex;
     flex-direction: row;

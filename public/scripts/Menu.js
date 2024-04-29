@@ -7,6 +7,27 @@ class Menu {
         
         console.log("Input Field Element:", this.inputField);
         this.setupEventListeners();
+
+        document.getElementById("RollUpButton").addEventListener('touchmove', function(e){
+            // Get first touch
+            var touch = e.targetTouches[0];
+            const menu = document.getElementById("PopUpMenu");
+            var clampedValue = Math.max(window.innerHeight - 400, Math.min(touch.clientY, window.innerHeight - 150));
+            menu.style.top = clampedValue + 'px'
+        });
+        document.getElementById("RollUpButton").addEventListener('touchend', function(){
+            const menu = document.getElementById("PopUpMenu");
+            var middle = (window.innerHeight - 400) + (((window.innerHeight - 150) - (window.innerHeight - 400)) / 2)
+            if(!this.isUp) {
+                // This is triggered when it goes up
+                this.isUp = true;
+                menu.style.top = window.innerHeight - 400 + 'px'
+            } else {
+                // This is triggered when it goes down
+                this.isUp = false;
+                menu.style.top = window.innerHeight - 150 + 'px'
+            }
+        });
     }
 
     MenuMove() {
