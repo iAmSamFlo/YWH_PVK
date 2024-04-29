@@ -282,6 +282,12 @@ class MapManager {
 
     this.inputField.value = "";
     const input = document.getElementById("InputField");
+    input.addEventListener('click', () => {
+      if(!this.menu.isUp){
+        this.menu.MenuMove();
+      }
+    });
+
     const options = {
       bounds: this.map.restriction.latLngBounds,
       componnentRestrictions: {country: "se"},
