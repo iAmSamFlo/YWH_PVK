@@ -1,6 +1,6 @@
 class MapManager {
 
-    constructor() {
+    constructor(menu) {
       this.secret = null;
 
       this.map = null;
@@ -17,7 +17,8 @@ class MapManager {
       this.beginJourneyBtn = document.getElementById('StartBtn');
       this.inputField = document.getElementById('InputField');
       this.clearBtn = document.getElementById('ClearButton');
-      this.cancelbtn = document.getElementById('CancelBtn')
+      this.cancelbtn = document.getElementById('CancelBtn');
+      this.menu = menu;
   
       this.routetemplate = document.getElementById('RouteTemplate');
       this.locationMenu = document.getElementById('LocationMenu');
@@ -372,8 +373,15 @@ class MapManager {
     });
 
     google.maps.event.addListener(this.map, "click", (mapsMouseEvent) => { 
-      //TODO else stäng menyn 
-      if (!this.reviewState) this.setTempPin(mapsMouseEvent);
+      if(!this.menu.isUp){
+        this.setTempPin(mapsMouseEvent);
+      }
+      if (!this.reviewState){
+        this.menu.MenuMove();
+      }
+      
+      
+      
     });
 
     this.radiusSlider.addEventListener('input', () => {
