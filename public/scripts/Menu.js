@@ -17,7 +17,6 @@ class Menu {
         });
         document.getElementById("RollUpButton").addEventListener('touchend', function(){
             const menu = document.getElementById("PopUpMenu");
-            var middle = (window.innerHeight - 400) + (((window.innerHeight - 150) - (window.innerHeight - 400)) / 2)
             if(!this.isUp) {
                 // This is triggered when it goes up
                 this.isUp = true;
@@ -33,9 +32,9 @@ class Menu {
     MenuMove() {
         const menu = document.getElementById("PopUpMenu");
         if (this.isUp) {
-            menu.style.bottom = "-250px"
+            menu.style.top = window.innerHeight - 150 + 'px'
         } else {
-            menu.style.bottom = "0px";
+            menu.style.top = window.innerHeight - 400 + 'px'
         }
         this.isUp = !this.isUp;
     }
