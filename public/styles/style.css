@@ -225,7 +225,7 @@
 .chooseroute{
   display: flex;
   flex-direction: column;
-  width: 160px;
+  width: 180px;
   font-family: "Montserrat", sans-serif;
   font-size: 15px;
   color: #FFFFFF;
@@ -238,7 +238,7 @@
 .activeroute{
   display: flex;
   flex-direction: column;
-  width: 160px;
+  width: 180px;
   font-family: "Montserrat", sans-serif;
   font-size: 15px;
   color: #FFFFFF;
@@ -246,6 +246,14 @@
   padding: 5px;
   border-radius: 5px;
   background-color: #a377fb;
+}
+
+.diffRoutes{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 70px;
+  padding-top: 20px;
 }
 
 #Routescontainer{
