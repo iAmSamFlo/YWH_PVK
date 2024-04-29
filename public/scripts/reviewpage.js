@@ -34,12 +34,6 @@ class ReviewPage {
       console.log(JSON.parse(coord));
       
     });
-    
-    this.buttons.forEach(function(button) {
-      button.addEventListener('click', function() {
-          toggleButton(button);
-      });
-    });
   }
 
   changeOpacity(clickedButton) {
@@ -56,8 +50,8 @@ class ReviewPage {
     this.activeButton = clickedButton;
   }
  
-
   toggleButton(button) {
     button.classList.toggle('active');
   }
+  
 }
