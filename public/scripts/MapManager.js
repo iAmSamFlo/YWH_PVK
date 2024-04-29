@@ -206,8 +206,10 @@ class MapManager {
 
             // Set content for the route div
             routeDiv.innerHTML = `
-                <span>Duration: ${durationInMinutes} minutes</span>
-                <span>Distance: ${distanceInKilometers} km</span>
+              <div class = "chooseroute">
+                <a>Duration: ${durationInMinutes} minutes</a>
+                <a>Distance: ${distanceInKilometers} km</a>
+              </div>
             `;
             //TODO: lägg till en knapp som bekräftar rutt och tar bort resterande rutter, öppnar upp för ny navigationsvy?
             // Append the route div to a container element (e.x, a div with id "routeContainer")
@@ -249,6 +251,15 @@ class MapManager {
   // Function to select the route
   selectRoute(routeIndex) {
     console.log('Route selected:', routeIndex);
+    document.querySelectorAll('.chooseroute').forEach(element => {
+      element.classList.remove('activeroute');
+  });
+
+  // Add 'activeroute' class to the selected route element
+    const routeElements = document.querySelectorAll('.chooseroute');
+    if (routeElements.length > routeIndex) {
+        routeElements[routeIndex].classList.add('activeroute');
+    }
 
     //TODO: att selecta route funkar ejj
     // Reset the stroke color for all routes and Highlight the selected route 
