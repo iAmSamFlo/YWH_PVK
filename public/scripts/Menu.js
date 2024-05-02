@@ -14,9 +14,9 @@ class Menu {
     MenuMove() {
         const menu = document.getElementById("PopUpMenu");
         if (this.isUp) {
-            menu.style.top = window.innerHeight - 150 + 'px'
+            menu.style.bottom = "-250px";
         } else {
-            menu.style.top = window.innerHeight - 400 + 'px'
+            menu.style.bottom = "0px";
         }
         this.isUp = !this.isUp;
     }
@@ -29,27 +29,6 @@ class Menu {
           if (event.key === 'Enter') {
             this.storeInput();
           }
-        });
-        document.getElementById("RollUpButton").addEventListener('touchmove', (e) => {
-            // Get first touch
-            var touch = e.targetTouches[0];
-            const menu = document.getElementById("PopUpMenu");
-            var clampedValue = Math.max(window.innerHeight - 400, Math.min(touch.clientY, window.innerHeight - 150));
-            menu.style.top = clampedValue + 'px'
-        });
-        document.getElementById("RollUpButton").addEventListener('touchend', () => {
-            const menu = document.getElementById("PopUpMenu");
-            if(!this.isUp) {
-            // This is triggered when it goes up
-            console.log("hello");
-            //console.log(this);
-            this.isUp = true;
-            menu.style.top = window.innerHeight - 400 + 'px';
-            } else {
-            // This is triggered when it goes down
-            this.isUp = false;
-            menu.style.top = window.innerHeight - 150 + 'px';
-            }
         });
     }
 }
