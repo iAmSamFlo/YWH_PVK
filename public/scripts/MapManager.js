@@ -229,13 +229,26 @@ class MapManager {
           }
           console.log("success");
 
+          const fastestDiv = document.createElement('div');
+          fastestDiv.id = "FastestDiv";
+          
+            // Set text content for the new <p> element
+            fastestDiv.innerHTML = 
+            '<span> Fastest </span>';
+            document.getElementById("route0").appendChild(fastestDiv);
+
+
           if (minTurnsIndex !== -1) {
             console.log("Route with least turns:", minTurnsIndex);
             // Create a new <p> element
             const newSpan = document.createElement('span');
             // Set text content for the new <p> element
             newSpan.textContent = 'Least turns';
+            if(minTurnsIndex != 0){
             document.getElementById("route"+minTurnsIndex).appendChild(newSpan);
+            } else {
+              document.getElementById("FastestDiv").appendChild(newSpan);
+            }
           } else {
             console.error("No routes found or error occurred.");
           }
