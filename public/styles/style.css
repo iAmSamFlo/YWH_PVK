@@ -40,8 +40,8 @@
 }
 .SideMenu{
   background-color:#7c41FA;
-  height: 40vh;
-  width: 60vw;
+  height: 350px;
+  width: 250px;
   position: fixed;
   z-index: 6;
   right: -500px;
@@ -272,4 +272,9 @@
 .RouteTemplate{
   padding-top: 10%;
   align-items: center;
+}
+
+#FastestDiv{
+  display: flex;
+  flex-direction: column;
 }
