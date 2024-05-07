@@ -30,6 +30,23 @@
         example@gmail.com
         </span>
       </span>
+      <div id = "SlidemenuButtonsContainer">
+        <div class = "ButtonCon">
+          <a href = "preference.html" class = "SideMenubtn">Change Preferences</a>
+          <span class="Arrow"> > </span>
+        </div>
+        <div class = "ButtonCon">
+          <a class = "SideMenubtn">Report Issue</a>
+          <span class = "Arrow"> > </span>
+        </div>
+
+        <div class = "ButtonCon">
+          <a class = "SideMenubtn">Log Out</a>
+          <span class = "Arrow"> > </span>
+        </div>
+          
+
+      </div>
     </div>
     <div id= "PopUpMenu" class="PopUpMenu">
       <a id="RollUpButton" onclick="menu.MenuMove()"></a>
@@ -83,7 +100,7 @@
     </script>
     <script type="text/JavaScript" src="./scripts/MapManager.js"></script>
     <script>
-      const index = new Index();
+      const index = new Index(menu);
     </script>
     
 

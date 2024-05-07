@@ -40,20 +40,18 @@
 }
 .SideMenu{
   background-color:#7c41FA;
-  height: 30vh;
-  width: 40vw;
+  height: 350px;
+  width: 250px;
   position: fixed;
   z-index: 6;
   right: -500px;
-  border-style: solid;
-  border-radius: 0px 0px 0px 80px;
-  border-width: 20px 0px 20px 20px;
-  border-color:rgba(0,0,0,0.5);
+  border-radius: 0px 0px 0px 10px;
   transition: right 0.5s;
   
 }
 .SideMenu > img{
-  width: 8vw;
+  padding: 7px;
+  width: 10vw;
 }
 
 .SideMenu > span {
@@ -62,7 +60,44 @@
   width: 75%;
   float:right;
   padding-top: 7px;
+  font-family: "Montserrat", sans-serif;
+  color:#FFFFFF;
+  font-size: 15px;
 }
+
+#SlideMenuButtonsContainer{
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.ButtonCon {
+  height: 59px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #a377fb;
+  padding-right: 5px;
+  border-radius: 5px;
+  color: #FFFFFF;
+  margin: 10px;
+}
+
+.Arrow{
+  right: 0;
+}
+
+.SideMenuBtn {
+  width: 160px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 20px;
+  color: #FFFFFF;
+  text-decoration: none;
+  background-color: #a377fb;
+  padding: 5px;
+  border-radius: 5px;
+}
+
 .btnDivs {
     display: flex;
     flex-direction: row;
@@ -177,7 +212,7 @@
 
 .Routeinfo {
   padding-left: 15%;
-  padding-top: 5%;
+  padding-top: 1%;
   display:flex;
   flex-direction: column;
   width: 100%;
@@ -185,12 +220,46 @@
   font-family: "Montserrat", sans-serif;
   font-weight: 500;
   color: #FFFFFF;
-  
+}
+
+.chooseroute{
+  display: flex;
+  flex-direction: column;
+  width: 180px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  color: #FFFFFF;
+  background-color: #7c41FA;
+  text-decoration: none;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.activeroute{
+  display: flex;
+  flex-direction: column;
+  width: 180px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #a377fb;
+}
+
+.diffRoutes{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 70px;
+  padding-top: 20px;
 }
 
 #Routescontainer{
-  padding-top: 23%;
+  padding-top: 20%;
 }
+
 
 #CancelBtn{
   position: absolute;
@@ -203,4 +272,9 @@
 .RouteTemplate{
   padding-top: 10%;
   align-items: center;
+}
+
+#FastestDiv{
+  display: flex;
+  flex-direction: column;
 }

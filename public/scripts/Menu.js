@@ -7,12 +7,14 @@ class Menu {
         
         console.log("Input Field Element:", this.inputField);
         this.setupEventListeners();
+
+        
     }
 
     MenuMove() {
         const menu = document.getElementById("PopUpMenu");
         if (this.isUp) {
-            menu.style.bottom = "-250px"
+            menu.style.bottom = "-250px";
         } else {
             menu.style.bottom = "0px";
         }
