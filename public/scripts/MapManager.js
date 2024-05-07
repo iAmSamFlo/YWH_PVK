@@ -1,6 +1,6 @@
 class MapManager {
 
-    constructor() {
+    constructor(menu) {
       this.secret = null;
 
       this.map = null;
@@ -17,7 +17,8 @@ class MapManager {
       this.beginJourneyBtn = document.getElementById('StartBtn');
       this.inputField = document.getElementById('InputField');
       this.clearBtn = document.getElementById('ClearButton');
-      this.cancelbtn = document.getElementById('CancelBtn')
+      this.cancelbtn = document.getElementById('CancelBtn');
+      this.menu = menu;
   
       this.routetemplate = document.getElementById('RouteTemplate');
       this.locationMenu = document.getElementById('LocationMenu');
@@ -201,12 +202,15 @@ class MapManager {
             const routeDiv = document.createElement('div');
             routeDiv.classList.add('route-info'); // TODO felicia måste skapa css klass
             routeDiv.classList.add('Routeinfo')
+            routeDiv.classList.add('diffRoutes')
             routeDiv.id = 'route'+i;
 
             // Set content for the route div
             routeDiv.innerHTML = `
-                <span>Duration: ${durationInMinutes} minutes</span>
-                <span>Distance: ${distanceInKilometers} km</span>
+                <div class = "chooseroute">
+                  <a>Duration: ${durationInMinutes} minutes</a>
+                  <a>Distance: ${distanceInKilometers} km</a>
+              </div>
             `;
             //TODO: lägg till en knapp som bekräftar rutt och tar bort resterande rutter, öppnar upp för ny navigationsvy?
             // Append the route div to a container element (e.x, a div with id "routeContainer")
@@ -225,13 +229,26 @@ class MapManager {
           }
           console.log("success");
 
+          const fastestDiv = document.createElement('div');
+          fastestDiv.id = "FastestDiv";
+          
+            // Set text content for the new <p> element
+            fastestDiv.innerHTML = 
+            '<span> Fastest </span>';
+            document.getElementById("route0").appendChild(fastestDiv);
+
+
           if (minTurnsIndex !== -1) {
             console.log("Route with least turns:", minTurnsIndex);
             // Create a new <p> element
             const newSpan = document.createElement('span');
             // Set text content for the new <p> element
-            newSpan.textContent = 'Route with least turns:';
+            newSpan.textContent = 'Least turns';
+            if(minTurnsIndex != 0){
             document.getElementById("route"+minTurnsIndex).appendChild(newSpan);
+            } else {
+              document.getElementById("FastestDiv").appendChild(newSpan);
+            }
           } else {
             console.error("No routes found or error occurred.");
           }
@@ -248,6 +265,15 @@ class MapManager {
   // Function to select the route
   selectRoute(routeIndex) {
     console.log('Route selected:', routeIndex);
+    document.querySelectorAll('.chooseroute').forEach(element => {
+      element.classList.remove('activeroute');
+  });
+
+  // Add 'activeroute' class to the selected route element
+    const routeElements = document.querySelectorAll('.chooseroute');
+    if (routeElements.length > routeIndex) {
+        routeElements[routeIndex].classList.add('activeroute');
+    }
 
     //TODO: att selecta route funkar ejj
     // Reset the stroke color for all routes and Highlight the selected route 
@@ -270,6 +296,12 @@ class MapManager {
 
     this.inputField.value = "";
     const input = document.getElementById("InputField");
+    input.addEventListener('click', () => {
+      if(!this.menu.isUp){
+        this.menu.MenuMove();
+      }
+    });
+
     const options = {
       bounds: this.map.restriction.latLngBounds,
       componnentRestrictions: {country: "se"},
@@ -372,8 +404,15 @@ class MapManager {
     });
 
     google.maps.event.addListener(this.map, "click", (mapsMouseEvent) => { 
-      //TODO else stäng menyn 
-      if (!this.reviewState) this.setTempPin(mapsMouseEvent);
+      if(!this.menu.isUp){
+        this.setTempPin(mapsMouseEvent);
+      }
+      if (!this.reviewState){
+        this.menu.MenuMove();
+      }
+      
+      
+      
     });
 
     this.radiusSlider.addEventListener('input', () => {
