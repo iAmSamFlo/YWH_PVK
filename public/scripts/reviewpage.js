@@ -30,16 +30,16 @@ class ReviewPage {
     });
     this.submitBtn.addEventListener("click", () => {
       window.location = "thankyoupage.html";
+      
       var coord = localStorage.getItem('coord');
-      var { latitude, longitude } = JSON.parse(coord);
-
-      for (let index = 0; index < 10000; index++) {
-        console.log(latitude);
-        console.log(longitude);
+      for (let index = 0; index < 1; index++) {
+        console.log(coord);
+        
       }
 
-      this.sendData(latitude, longitude, 20);
-      console.log(JSON.parse(coord));
+      var { lat, lng } = JSON.parse(coord);
+
+      this.sendData(lat, lng, 20);
       
     });
   }
