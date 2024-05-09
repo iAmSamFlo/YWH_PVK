@@ -1,17 +1,18 @@
 {
   "dependencies": {
-    "express": "^4.19.1",
-    "@google-cloud/secret-manager": ">=3.12.1",
-    "protobufjs": ">=6.11.4",
     "@google-cloud/cloud-sql-connector": "^1.1.0",
+    "@google-cloud/secret-manager": ">=3.12.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.19.1",
     "google-gax": ">=3.1.4",
     "knex": "^3.0.0",
     "pg": "^8.0.0",
+    "protobufjs": ">=6.11.4",
     "pug": "^3.0.0",
-    "dotenv": "^10.0.0"
+    "sqlite3": "^5.1.7"
   },
   "scripts": {
-    "start": "node server.js" ,
+    "start": "node server.js",
     "deploy": "gcloud preview appdeploy"
   }
 }
