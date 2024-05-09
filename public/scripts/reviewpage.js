@@ -31,6 +31,14 @@ class ReviewPage {
     this.submitBtn.addEventListener("click", () => {
       window.location = "thankyoupage.html";
       var coord = localStorage.getItem('coord');
+      var { latitude, longitude } = JSON.parse(coord);
+
+      for (let index = 0; index < 10000; index++) {
+        console.log(latitude);
+        console.log(longitude);
+      }
+
+      this.sendData(latitude, longitude, 20);
       console.log(JSON.parse(coord));
       
     });
@@ -54,4 +62,14 @@ class ReviewPage {
     button.classList.toggle('active');
   }
   
+  async sendData(latitude, longitude, radius) {
+      // Send the variables to the backend
+      await fetch('/sendData', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ latitude: latitude, longitude: longitude, radius: radius}),
+      });
+  }
 }
