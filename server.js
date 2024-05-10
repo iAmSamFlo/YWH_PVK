@@ -1,10 +1,11 @@
 
 class Pin{
-    constructor(lat, lng, radius){
+    constructor(lat, lng, radius, rating){
         this.latitude = lat;
         this.longitude = lng;
         // this.coords = {lat: lat, lng: lng};
         this.radius = radius;
+        this.rating = rating;
     }
 }
 
@@ -50,14 +51,14 @@ app.get('/get-database', async (req, res) => {
         console.log('Connected to the database.');
     });
 
-    db.all(`SELECT latitude, longitude, radius FROM Pin`, [], (err, rows) => {
+    db.all(`SELECT latitude, longitude, radius, rating FROM Pin`, [], (err, rows) => {
         if (err) {
             throw err;
         }
         let pins = [];
         rows.forEach((row) => {
-            console.log(row.latitude, row.longitude, row.radius);
-            pins.push(new Pin(row.latitude, row.longitude, row.radius));
+            console.log(row.latitude, row.longitude, row.radius, row.rating);
+            pins.push(new Pin(row.latitude, row.longitude, row.radius, row.rating));
         });
         res.json(pins);
     });

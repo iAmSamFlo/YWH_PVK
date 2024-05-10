@@ -68,7 +68,7 @@ class ReviewPage {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ latitude: latitude, longitude: longitude, radius: radius, rate: rate}),
+        body: JSON.stringify({ latitude: latitude, longitude: longitude, radius: radius, rating: rate}),
       });
   }
 }

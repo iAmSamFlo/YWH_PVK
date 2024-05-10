@@ -69,12 +69,33 @@ class Demo {
   
             const response = await fetch('/get-database');
             const data = await response.json();
-            this.pins = data;
+
             data.forEach(pin => {
+                let color;           
+                switch (pin.rating) {
+                    case 1:
+                        color = 'green';
+                        break;
+                    case 2:
+                        color = 'lightgreen';
+                        break;
+                    case 3:
+                        color = 'orange';
+                        break;
+                    case 4:
+                        color = 'red';
+                        break;
+                    default:
+                        color = 'lightgray';
+                        break;
+                }
                 this.circles.push( new google.maps.Circle({
                     map: this.map,
                     center: { lat: pin.latitude, lng: pin.longitude },
                     radius: pin.radius,
+                    fillColor: color,
+                    fillOpacity: 0.5,
+                    strokeWeight: 0,
                 }));
             });
 
