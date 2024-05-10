@@ -69,7 +69,7 @@ class MapManager {
       try {
           const response = await fetch('/get-database');
           const recived = await response.text();
-          console.log('Data recived:', recived);
+          // console.log('Data recived:', recived);
           // Now you can use the secret in your client-side code
       } catch (error) {
           console.error('Error fetching secret:', error);

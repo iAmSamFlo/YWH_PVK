@@ -27,8 +27,8 @@ app.use(express.static(path.join(__dirname, 'public'), { index: 'preference.html
 app.use(express.static('public', { 'Content-Type': 'application/javascript' }));
 
 // The secret value is global for snappy reuse.
-let secret = process.env.GoogleMapsAPI;
-// let secret = "AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg";
+// let secret = process.env.GoogleMapsAPI;
+let secret = "AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg";
 
 app.get('/get-secret', async (req, res) => {
     try {
@@ -66,17 +66,19 @@ app.get('/get-database', async (req, res) => {
 // Handle the button click data
 app.post('/sendData', (req, res) => {
     console.log("hello from here");
-    const { latitude, longitude, radius} = req.body;
+    const { latitude, longitude, radius, rate} = req.body;
     
     // Save the variables as local variables in the backend
     let backendradius = radius;
     let backendlat = latitude;
     let backendlng = longitude;
+    let backendrate = rate;
 
     console.log('Received data from frontend:');
     console.log('Radius:', backendradius);
     console.log(backendlat);
     console.log(backendlng);
+    console.log('rate: ', backendrate);
 
 
     // Respond to the frontend if necessary
@@ -89,7 +91,7 @@ app.post('/sendData', (req, res) => {
             console.log('Connected to the database.');
     });
  
-    db.run(`INSERT INTO Pin(dateOfCreation, rating, message, tags, latitude, longitude, radius, userID) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`, ['2024-05-09', 3, 'hello', '1,3,4', backendlat, backendlng, backendradius, 1], function(err) {
+    db.run(`INSERT INTO Pin(dateOfCreation, rating, message, tags, latitude, longitude, radius, userID) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`, ['2024-05-09', backendrate, 'hello', '1,3,4', backendlat, backendlng, backendradius, 1], function(err) {
         if (err) {
             return console.log(err.message);
         }
