@@ -32,14 +32,11 @@ class ReviewPage {
       window.location = "thankyoupage.html";
       
       var coord = localStorage.getItem('coord');
-      for (let index = 0; index < 1; index++) {
-        console.log(coord);
-        
-      }
+      var radius = localStorage.getItem('radius');
 
       var { lat, lng } = JSON.parse(coord);
 
-      this.sendData(lat, lng, 20);
+      this.sendData(lat, lng, radius);
       
     });
   }
