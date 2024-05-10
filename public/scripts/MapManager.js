@@ -8,7 +8,7 @@ class MapManager {
       this.markerElement = null;
       this.coord = null;
       this.circle = null;
-      this.radius = null;
+      this.radius = 5;
       this.directionsRenderer = null;
       this.directionsService = null; 
       this.reviewState = false;
