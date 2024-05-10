@@ -1,10 +1,8 @@
 class Demo {
     constructor() {
         this.circles = [];
-        this.pins = [];
         this.map = null;
         this.initMap();
-        this.getData();
     }
 
     async setMapScript() {
@@ -57,16 +55,22 @@ class Demo {
             streetViewControl: false,
             mapId: 'DEMO_MAP_ID',
         });
+        this.getData();
     }
 
 
     async getData(){
+        this.circles.forEach(Circle => {
+            Circle.setMap(null);
+        });
+        this.circles = [];
+
         try{
+  
             const response = await fetch('/get-database');
             const data = await response.json();
             this.pins = data;
             data.forEach(pin => {
-                this.pins.push(new Pin(pin.latitude, pin.longitude, pin.radius));
                 this.circles.push( new google.maps.Circle({
                     map: this.map,
                     center: { lat: pin.latitude, lng: pin.longitude },
