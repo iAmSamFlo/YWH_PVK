@@ -400,7 +400,10 @@ class MapManager {
     });
 
     this.nextBtn.addEventListener('click', () => {
+      localStorage.setItem('radius', this.radius);
+
       window.location.href = "reviewpage.html";
+
     });
 
     google.maps.event.addListener(this.map, "click", (mapsMouseEvent) => { 
@@ -573,6 +576,7 @@ class MapManager {
     var pos =  this.markerElement.position;
     this.map.setCenter(pos);
     this.coord = pos;
+    localStorage.setItem('coord', JSON.stringify(pos));
   }
 
   reviewOrJourneyButtons(){

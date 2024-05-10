@@ -9,8 +9,7 @@ const port = process.env.PORT || 8080;
 
 app.use(bodyParser.json());
 
-let backendRadius;
-let backendCoord;
+
 
 // Serve static files from the 'public' directory
 // app.use(express.static(path.join(__dirname, 'public')));
@@ -37,14 +36,14 @@ app.post('/sendData', (req, res) => {
     const { latitude, longitude, radius} = req.body;
     
     // Save the variables as local variables in the backend
-    backendradius = radius;
-    backendlat = latitude;
-    backendlong = longitude;
+    let backendradius = radius;
+    let backendlat = latitude;
+    let backendlng = longitude;
 
     console.log('Received data from frontend:');
-    console.log('Radius:', backendRadius);
+    console.log('Radius:', backendradius);
     console.log(backendlat);
-    console.log(backendlong);
+    console.log(backendlng);
 
 
     // Respond to the frontend if necessary
@@ -57,7 +56,7 @@ app.post('/sendData', (req, res) => {
             console.log('Connected to the database.');
     });
  
-    db.run(`INSERT INTO Pin(dateOfCreation, rating, message, tags, latitude, longitude, radius, userID) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`, ['2024-05-09', 3, 'hello', '1,3,4', backendlat, backendlong, backendradius, 1], function(err) {
+    db.run(`INSERT INTO Pin(dateOfCreation, rating, message, tags, latitude, longitude, radius, userID) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`, ['2024-05-09', 3, 'hello', '1,3,4', backendlat, backendlng, backendradius, 1], function(err) {
         if (err) {
             return console.log(err.message);
         }
