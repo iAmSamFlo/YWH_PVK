@@ -71,4 +71,5 @@ class ReviewPage {
         body: JSON.stringify({ latitude: latitude, longitude: longitude, radius: radius, rating: rate}),
       });
   }
+
 }
