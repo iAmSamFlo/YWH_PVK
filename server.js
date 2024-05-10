@@ -1,3 +1,13 @@
+
+class Pin{
+    constructor(lat, lng, radius){
+        this.latitude = lat;
+        this.longitude = lng;
+        // this.coords = {lat: lat, lng: lng};
+        this.radius = radius;
+    }
+}
+
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 
@@ -28,6 +38,29 @@ app.get('/get-secret', async (req, res) => {
         console.error('Error fetching secret:', error);
         res.status(500).send('Error fetching secret');
     }
+});
+
+//fetch coordinates and radius from database
+app.get('/get-database', async (req, res) => {
+
+    let db = new sqlite3.Database('./Database/databaseLite.db', sqlite3.OPEN_READWRITE, (err) => {
+        if (err) {
+            console.error(err.message);
+        }
+        console.log('Connected to the database.');
+    });
+
+    db.all(`SELECT latitude, longitude, radius FROM Pin`, [], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        let pins = [];
+        rows.forEach((row) => {
+            console.log(row.latitude, row.longitude, row.radius);
+            pins.push(new Pin(row.latitude, row.longitude, row.radius));
+        });
+        res.json(pins);
+    });
 });
 
 // Handle the button click data
@@ -105,3 +138,4 @@ app.listen(port, () => {
 //         res.status(500).send('Internal Server Error');
 //     }
 // });
+
