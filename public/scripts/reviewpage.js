@@ -7,6 +7,7 @@ class ReviewPage {
     this.activeButton = null;
     this.sliderContainer = document.getElementById('sliderContainer');
     this.activeButton = null;
+    this.rate = 1;
     // this.sliderContainer.classList.add('invisible');
     this.buttons = document.querySelectorAll('.tag');
     this.setupEventListeners();
@@ -24,14 +25,20 @@ class ReviewPage {
       } else if (this.slider.value === "4") {
         this.sliderValueContainer.textContent = "Very unsafe";
       }
+      this.rate = this.slider.value;
     });
     this.closeBtn.addEventListener("click", () => {
       window.history.back();
     });
     this.submitBtn.addEventListener("click", () => {
-      window.location = "thankyoupage.html";
+      
       var coord = localStorage.getItem('coord');
-      console.log(JSON.parse(coord));
+      var radius = localStorage.getItem('radius');
+
+      var { lat, lng } = JSON.parse(coord);
+
+      this.sendData(lat, lng, radius, this.rate);
+      window.location = "thankyoupage.html";
       
     });
   }
@@ -54,4 +61,15 @@ class ReviewPage {
     button.classList.toggle('active');
   }
   
+  async sendData(latitude, longitude, radius, rate) {
+      // Send the variables to the backend
+      await fetch('/sendData', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ latitude: latitude, longitude: longitude, radius: radius, rate: rate}),
+      });
+  }
+
 }

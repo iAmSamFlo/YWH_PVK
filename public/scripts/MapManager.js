@@ -8,7 +8,7 @@ class MapManager {
       this.markerElement = null;
       this.coord = null;
       this.circle = null;
-      this.radius = null;
+      this.radius = 5;
       this.directionsRenderer = null;
       this.directionsService = null; 
       this.reviewState = false;
@@ -69,7 +69,7 @@ class MapManager {
       try {
           const response = await fetch('/get-database');
           const recived = await response.text();
-          console.log('Data recived:', recived);
+          // console.log('Data recived:', recived);
           // Now you can use the secret in your client-side code
       } catch (error) {
           console.error('Error fetching secret:', error);
@@ -400,7 +400,10 @@ class MapManager {
     });
 
     this.nextBtn.addEventListener('click', () => {
+      localStorage.setItem('radius', this.radius);
+
       window.location.href = "reviewpage.html";
+
     });
 
     google.maps.event.addListener(this.map, "click", (mapsMouseEvent) => { 
@@ -573,6 +576,7 @@ class MapManager {
     var pos =  this.markerElement.position;
     this.map.setCenter(pos);
     this.coord = pos;
+    localStorage.setItem('coord', JSON.stringify(pos));
   }
 
   reviewOrJourneyButtons(){
