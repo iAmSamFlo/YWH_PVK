@@ -22,3 +22,11 @@ body{
     margin: 0;
     padding: 0;
 }
+.DemoText{
+    color: #ffffff;
+    font-size: 150%;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 650;
+    text-align: left;
+    margin-right: 5%;
+  }

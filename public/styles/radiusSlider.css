@@ -60,8 +60,11 @@
 .radiusSliderText {
     text-align: center;
     display: inline-block;
-    font-size: 50px;
+    font-size: 30px;
     font-family: "Montserrat", sans-serif;
     font-weight: 700;
     color: #FFFFFF;
+}
+#sliderValue {
+    font-size: 20px;
 }
