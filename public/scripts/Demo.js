@@ -89,14 +89,39 @@ class Demo {
                         color = 'lightgray';
                         break;
                 }
-                this.circles.push( new google.maps.Circle({
+                let circle = new google.maps.Circle({
                     map: this.map,
                     center: { lat: pin.latitude, lng: pin.longitude },
                     radius: pin.radius,
                     fillColor: color,
                     fillOpacity: 0.5,
                     strokeWeight: 0,
-                }));
+                })
+                circle.addListener('click', () => {
+                    console.log('Circle clicked:');
+                    let tags = this.decodeTags(JSON.parse(pin.tags));
+                    console.log('message:', pin.message);
+                    var messageForm = '';
+                    if (pin.message != "" && pin.message != null) {  
+                        messageForm = '<div><strong>Message:</strong><br>' + pin.message + '</div>';
+                    } else {
+                        console.log('no message');
+                        messageForm = '';
+                    }
+                    var tagsForm = '<div><strong>Tags:</strong><br>' 
+                    tags.forEach(tag => {
+                        tagsForm += tag + '<br>';
+                    });
+                    tagsForm += '</div>';
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: tagsForm + messageForm,
+                    });
+                    let center = circle.getCenter();
+                    infoWindow.setPosition(center);
+                    infoWindow.open(this.map);
+                    
+                });
+                this.circles.push(circle);
             });
 
         } catch (error) {
@@ -105,4 +130,35 @@ class Demo {
     }
 
 
+    decodeTags(tags) {
+        let tagArray = [];
+      
+        tags.forEach(tag => {
+            switch(tag){
+                case 0:
+                    tagArray.push('Daytime');
+                    break;
+                case 1:
+                    tagArray.push('Nighttime');
+                    break;
+                case 2:
+                    tagArray.push('Infrastucture');
+                    break;
+                case 3:
+                    tagArray.push('Vibes');
+                    break;
+                case 4:
+                    tagArray.push('Navigation');
+                    break;
+                case 5:
+                    tagArray.push('Surroundings');
+                    break;
+                case 6:
+                    tagArray.push('Expereince');
+                    break;
+            }
+            
+        });
+        return tagArray;
+    }
 }

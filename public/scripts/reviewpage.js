@@ -4,6 +4,7 @@ class ReviewPage {
     this.slider = document.getElementById("aslider");
     this.submitBtn = document.getElementById("SubmitBtn");
     this.sliderValueContainer = document.getElementById("sliderValueContainer");
+    this.commentTextarea = document.getElementById('comment');
     this.activeButton = null;
     this.sliderContainer = document.getElementById('sliderContainer');
     this.activeButton = null;
@@ -40,7 +41,10 @@ class ReviewPage {
 
       var { lat, lng } = JSON.parse(coord);
 
-      this.sendData(lat, lng, radius, this.rate, this.tags);
+      // Get the comment from the textarea
+      const comment = this.commentTextarea.value.trim();
+
+      this.sendData(lat, lng, radius, this.rate, this.tags, comment);
       window.location = "thankyoupage.html";
       
     });
@@ -57,28 +61,15 @@ class ReviewPage {
     console.log(this.tags);
   }
   
-  async sendData(latitude, longitude, radius, rate, tags) {
-    // try {
-    //   console.log(tags);
-    //   // Send the variables to the backend
-    //   await fetch('/sendData', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({ latitude: latitude, longitude: longitude, radius: radius, rate: rate, tags: this.tags}),
-    //   });
-    // } catch (error) {
-    //   console.error('Error sending data:', error);
-    // }
+  async sendData(latitude, longitude, radius, rate, tags, message) {
     try {
-      console.log('Sending data:', { latitude, longitude, radius, rate, tags });
+      // console.log('Sending data:', { latitude, longitude, radius, rate, tags, message });
       const response = await fetch('/sendData', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ latitude, longitude, radius, rate, tags }),
+          body: JSON.stringify({ latitude, longitude, radius, rate, tags, message }),
       });
 
       if (!response.ok) {
