@@ -10,6 +10,9 @@ class ReviewPage {
     this.rate = 1;
     // this.sliderContainer.classList.add('invisible');
     this.buttons = document.querySelectorAll('.tag');
+
+    this.tags = [];
+
     this.setupEventListeners();
   }
 
@@ -37,39 +40,56 @@ class ReviewPage {
 
       var { lat, lng } = JSON.parse(coord);
 
-      this.sendData(lat, lng, radius, this.rate);
+      this.sendData(lat, lng, radius, this.rate, this.tags);
       window.location = "thankyoupage.html";
       
     });
   }
 
-  changeOpacity(clickedButton) {
-    // Add logic to check if Safe button is clicked or no safe buttons are pressed
-    var safeButtonActive = false;
-    this.safeButtons.forEach(function(button) {
-        if (button === clickedButton) {
-            safeButtonActive = true;
-        }
-        button.classList.remove('active');
-    });
-
-    clickedButton.classList.add('active');
-    this.activeButton = clickedButton;
-  }
  
-  toggleButton(button) {
+  toggleButton(button, id) {
     button.classList.toggle('active');
+    if(button.classList.contains('active')){
+      this.tags.push(id);
+    } else {
+      this.tags = this.tags.filter(tag => tag !== id);
+    }
+    console.log(this.tags);
   }
   
-  async sendData(latitude, longitude, radius, rate) {
-      // Send the variables to the backend
-      await fetch('/sendData', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ latitude: latitude, longitude: longitude, radius: radius, rate: rate}),
+  async sendData(latitude, longitude, radius, rate, tags) {
+    // try {
+    //   console.log(tags);
+    //   // Send the variables to the backend
+    //   await fetch('/sendData', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({ latitude: latitude, longitude: longitude, radius: radius, rate: rate, tags: this.tags}),
+    //   });
+    // } catch (error) {
+    //   console.error('Error sending data:', error);
+    // }
+    try {
+      console.log('Sending data:', { latitude, longitude, radius, rate, tags });
+      const response = await fetch('/sendData', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ latitude, longitude, radius, rate, tags }),
       });
+
+      if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.text();
+      console.log('Response from server:', result);
+    } catch (error) {
+        console.error('Error sending data:', error);
+    }
   }
 
 }

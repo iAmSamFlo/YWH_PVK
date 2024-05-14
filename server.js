@@ -1,11 +1,12 @@
 
 class Pin{
-    constructor(lat, lng, radius, rating){
+    constructor(lat, lng, radius, rating, tags){
         this.latitude = lat;
         this.longitude = lng;
         // this.coords = {lat: lat, lng: lng};
         this.radius = radius;
         this.rating = rating;
+        this.tags = tags;
     }
 }
 
@@ -19,6 +20,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 app.use(bodyParser.json());
+
 
 
 
@@ -46,62 +48,130 @@ app.get('/get-database', async (req, res) => {
 
     let db = new sqlite3.Database('./Database/databaseLite.db', sqlite3.OPEN_READWRITE, (err) => {
         if (err) {
-            console.error(err.message);
-        }
+            console.error('Error connecting to the database:', err.message);
+            return res.status(500).send('Internal Server Error: Database connection failed');
+        }        
         console.log('Connected to the database.');
     });
 
-    db.all(`SELECT latitude, longitude, radius, rating FROM Pin`, [], (err, rows) => {
-        if (err) {
-            throw err;
-        }
-        let pins = [];
-        rows.forEach((row) => {
-            console.log(row.latitude, row.longitude, row.radius, row.rating);
-            pins.push(new Pin(row.latitude, row.longitude, row.radius, row.rating));
+    // db.all(`SELECT latitude, longitude, radius, rating, tags FROM Pin`, [], (err, rows) => {
+    //     if (err) {
+    //         throw err;
+    //     }
+    //     let pins = [];
+    //     rows.forEach((row) => {
+    //         console.log('fetched data: ', row.latitude, row.longitude, row.radius, row.rating, row.tags);
+    //         pins.push(new Pin(row.latitude, row.longitude, row.radius, row.rating, row.tags));
+    //     });
+    //     res.json(pins);
+    // });
+    try {
+        const rows = await new Promise((resolve, reject) => {
+            db.all(`SELECT latitude, longitude, radius, rating, tags FROM Pin`, [], (err, rows) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(rows);
+            });
         });
+
+        let pins = rows.map(row => new Pin(row.latitude, row.longitude, row.radius, row.rating, row.tags));
+        console.log('fetch data');
+        // console.log('Fetched data from the database:')
+        // pins.forEach(pin => {
+        //     console.log('Latitude:', pin.latitude, 'Longitude:', pin.longitude,'Radius:', pin.radius,'Rating:', pin.rating,'Tags:', pin.tags);
+        // });
         res.json(pins);
-    });
+
+    } catch (error) {
+        console.error('Error fetching data from the database:', error);
+        res.status(500).send('Internal Server Error: Failed to fetch data');
+    } finally {
+        db.close((err) => {
+            if (err) {
+                console.error('Error closing the database connection:', err.message);
+            }
+        });
+    }
 });
 
 // Handle the button click data
-app.post('/sendData', (req, res) => {
-    console.log("hello from here");
-    const { latitude, longitude, radius, rate} = req.body;
+app.post('/sendData', async (req, res) => {
+    // app.post('/sendData', (req, res) => {
+    console.log("sendData");
+    const { latitude, longitude, radius, rate, tags} = req.body;
     
+    if (!latitude || !longitude || !radius || !rate || !tags) {
+        return res.status(400).send('Bad Request: Missing required fields');
+    }
     // Save the variables as local variables in the backend
     let backendradius = radius;
     let backendlat = latitude;
     let backendlng = longitude;
     let backendrate = rate;
+    let backendtags = JSON.stringify(tags); // Convert tags array to JSON string
 
-    console.log('Received data from frontend:');
-    console.log('Radius:', backendradius);
-    console.log(backendlat);
-    console.log(backendlng);
-    console.log('rate: ', backendrate);
+    
+    const date = new Date().toISOString().split('T')[0];
+
+    // console.log('date: ',date);
 
 
-    // Respond to the frontend if necessary
-    res.send('Data received successfully!');
+    // console.log('Received data from frontend:');
+    // console.log('Radius:', backendradius);
+    // console.log('Latitude:', backendlat);
+    // console.log('Longitude:', backendlng);
+    // console.log('Rate:', backendrate);
+    // console.log('Tags:', backendtags);
 
     let db = new sqlite3.Database('./Database/databaseLite.db', sqlite3.OPEN_READWRITE, (err) => {
             if (err) {
-                console.error(err.message);
+                console.error('fel med connection till db, ', err.message);
+                res.status(500).send('Internal Server Error: Failed to connect to database');
+                return;            
             }
             console.log('Connected to the database.');
     });
  
-    db.run(`INSERT INTO Pin(dateOfCreation, rating, message, tags, latitude, longitude, radius, userID) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`, ['2024-05-09', backendrate, 'hello', '1,3,4', backendlat, backendlng, backendradius, 1], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // get the last insert id
-        console.log(`A pin has been inserted with rowID ${this.lastID}`);
-    });
-    db.close();
-
+    try {
+        await new Promise((resolve, reject) => {
+            db.run(
+                `INSERT INTO Pin(dateOfCreation, rating, message, tags, latitude, longitude, radius, userID) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`,
+                [date, backendrate, 'hello', backendtags, backendlat, backendlng, backendradius, 1],
+                function(err) {
+                    if (err) {
+                        console.error('Error inserting data into database:', err.message);
+                        reject(err);
+                    } else {
+                        console.log(`A pin has been inserted with rowID ${this.lastID}`);
+                        resolve();
+                    }
+                }
+            );
+        });
+        res.send('Data received and stored successfully!');
+    } catch (error) {
+        console.error('Error during database operation:', error);
+        res.status(500).send('Internal Server Error: Failed to insert data');
+    } finally {
+        db.close((err) => {
+            if (err) {
+                console.error('Error closing the database connection:', err.message);
+            }
+        });
+    }
 });
+
+//     db.run(`INSERT INTO Pin(dateOfCreation, rating, message, tags, latitude, longitude, radius, userID) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`, [date, backendrate, 'hello', backendtags, backendlat, backendlng, backendradius, 1], function(err) {
+//         if (err) {
+//             return console.log('fel när insert pin, ', err.message);
+//         }
+//         // get the last insert id
+//         console.log(`A pin has been inserted with rowID ${this.lastID}`);
+//     });
+//     db.close();
+
+// });
 
 // Start the server
 app.listen(port, () => {

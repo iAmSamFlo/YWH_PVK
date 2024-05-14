@@ -400,6 +400,7 @@ class MapManager {
     });
 
     this.nextBtn.addEventListener('click', () => {
+      console.log('radius:', this.radius);
       localStorage.setItem('radius', this.radius);
 
       window.location.href = "reviewpage.html";

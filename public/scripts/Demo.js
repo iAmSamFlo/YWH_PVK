@@ -39,10 +39,10 @@ class Demo {
         const minZoom = 10;
             this.map = new Map(document.getElementById('map'), {
             fullscreenControl: false,
-            zoom: minZoom + 7,
+            zoom: minZoom +4,
             minZoom: minZoom,
             zoomControl: false,
-            center: { lat: 59.32944, lng: 18.06861 },
+            center: { lat: 59.3481694, lng: 18.0747372 },
             restriction: {
                 latLngBounds: {
                 north: 60,
