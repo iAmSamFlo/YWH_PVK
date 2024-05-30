@@ -2,6 +2,7 @@ class Demo {
     constructor() {
         this.circles = [];
         this.map = null;
+        this.datalength = 0;
         this.initMap();
     }
 
@@ -66,67 +67,84 @@ class Demo {
         this.circles = [];
 
         try{
-  
+
             const response = await fetch('/get-database');
             const data = await response.json();
 
-            data.forEach(pin => {
-                let color;           
-                switch (pin.rating) {
-                    case 1:
-                        color = 'green';
-                        break;
-                    case 2:
-                        color = 'lightgreen';
-                        break;
-                    case 3:
-                        color = 'orange';
-                        break;
-                    case 4:
-                        color = 'red';
-                        break;
-                    default:
-                        color = 'lightgray';
-                        break;
-                }
-                let circle = new google.maps.Circle({
-                    map: this.map,
-                    center: { lat: pin.latitude, lng: pin.longitude },
-                    radius: pin.radius,
-                    fillColor: color,
-                    fillOpacity: 0.5,
-                    strokeWeight: 0,
-                })
-                circle.addListener('click', () => {
-                    console.log('Circle clicked:');
-                    let tags = this.decodeTags(JSON.parse(pin.tags));
-                    console.log('message:', pin.message);
-                    var messageForm = '';
-                    if (pin.message != "" && pin.message != null) {  
-                        messageForm = '<div><strong>Message:</strong><br>' + pin.message + '</div>';
-                    } else {
-                        console.log('no message');
-                        messageForm = '';
-                    }
-                    var tagsForm = '<div><strong>Tags:</strong><br>' 
-                    tags.forEach(tag => {
-                        tagsForm += tag + '<br>';
-                    });
-                    tagsForm += '</div>';
-                    var infoWindow = new google.maps.InfoWindow({
-                        content: tagsForm + messageForm,
-                    });
-                    let center = circle.getCenter();
-                    infoWindow.setPosition(center);
-                    infoWindow.open(this.map);
-                    
-                });
-                this.circles.push(circle);
-            });
+            this.datalength = data.length;
+
+            this.displayData(data);
 
         } catch (error) {
             console.error('Error fetching database:', error);
         }
+
+        setInterval(async () => {
+            const response = await fetch('/get-database');
+            const data = await response.json();
+            if(data.length != this.datalength){
+                const newData = data.slice(this.datalength);
+                this.datalength = data.length;
+                this.displayData(newData);
+            }
+        }, 2000);
+
+    }
+
+    displayData(data){
+        data.forEach(pin => {
+            let color;           
+            switch (pin.rating) {
+                case 1:
+                    color = 'green';
+                    break;
+                case 2:
+                    color = 'lightgreen';
+                    break;
+                case 3:
+                    color = 'orange';
+                    break;
+                case 4:
+                    color = 'red';
+                    break;
+                default:
+                    color = 'lightgray';
+                    break;
+            }
+            let circle = new google.maps.Circle({
+                map: this.map,
+                center: { lat: pin.latitude, lng: pin.longitude },
+                radius: pin.radius,
+                fillColor: color,
+                fillOpacity: 0.5,
+                strokeWeight: 0,
+            })
+            circle.addListener('click', () => {
+                console.log('Circle clicked:');
+                let tags = this.decodeTags(JSON.parse(pin.tags));
+                console.log('message:', pin.message);
+                var messageForm = '';
+                if (pin.message != "" && pin.message != null) {  
+                    messageForm = '<div><strong>Message:</strong><br>' + pin.message + '</div>';
+                } else {
+                    console.log('no message');
+                    messageForm = '';
+                }
+                var tagsForm = '<div><strong>Tags:</strong><br>' 
+                tags.forEach(tag => {
+                    tagsForm += tag + '<br>';
+                });
+                tagsForm += '</div>';
+                var infoWindow = new google.maps.InfoWindow({
+                    content: tagsForm + messageForm,
+                });
+                let center = circle.getCenter();
+                infoWindow.setPosition(center);
+                infoWindow.open(this.map);
+                
+            });
+            this.circles.push(circle);
+        });
     }
 
 
